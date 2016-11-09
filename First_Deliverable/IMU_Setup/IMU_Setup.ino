@@ -1,7 +1,7 @@
 /*
- * Copyright (c) 2016 Intel Corporation.  All rights reserved.
- * See the bottom of this file for the license terms.
- */
+   Copyright (c) 2016 Intel Corporation.  All rights reserved.
+   See the bottom of this file for the license terms.
+*/
 
 /*
    This sketch example demonstrates how the BMI160 on the
@@ -10,7 +10,12 @@
 */
 
 #include "CurieIMU.h"
-
+#include "CurieBLE.h"
+BLEPeripheral blePeripheral;
+BLEService imuService("19B10000-E8F2-537E-4F6C-D104768A1214");
+// BLE LED Switch Characteristic - custom 128-bit UUID, read and writable by central
+BLEUnsignedCharCharacteristic switchCharacteristic("19B10001-E8F2-537E-4F6C-D104768A1214", BLERead | BLEWrite);
+const int ledPin = 13;  //pin use for LED
 int lastOrientation = - 1; // previous orientation (for comparison)
 
 void setup() {
@@ -23,10 +28,26 @@ void setup() {
 
   // Set the accelerometer range to 2G
   CurieIMU.setAccelerometerRange(2);
+  //Bluetooth
+  // set advertised local name and service UUID:
+  blePeripheral.setLocalName("IMUComms");
+  blePeripheral.setAdvertisedServiceUuid(imuService.uuid());
+
+  // add service and characteristic:
+  blePeripheral.addAttribute(imuService);
+  blePeripheral.addAttribute(switchCharacteristic);
+
+  // set the initial value for the characeristic:
+  switchCharacteristic.setValue(0);
+
+  // begin advertising BLE service:
+  blePeripheral.begin();
+  Serial.println("BLE IMU Peripheral");
 }
 
 void loop() {
-int orientation = - 1;   // the board's orientation
+  int orientation = - 1;   // the board's orientation
+  BLECentral central = blePeripheral.central();
   String orientationString; // string for printing description of orientation
   /*
     The orientations of the board:
@@ -51,7 +72,7 @@ int orientation = - 1;   // the board's orientation
     // base orientation on Z
     if (z > 0) {
       orientationString = "up";
-      orientation = 0;  
+      orientation = 0;
     } else {
       orientationString = "down";
       orientation = 1;
