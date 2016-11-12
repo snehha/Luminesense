@@ -1,20 +1,4 @@
-/*
- * Copyright (c) 2016 Intel Corporation.  All rights reserved.
- * See the bottom of this file for the license terms.
- */
- 
- /*
-  This example can work with LEDCentral
 
-  This example is similar to CallbackLED example in functionality.
-  It does not use callbacks. In the loop it interogates the connection state with central.
-  Checks if the characteristic is written and turns the LED on or off accordingly.
-  To test interactively, use a phone app like nrf Controller (Android) or Light Blue (iOS).
-  Connect to BLE device named LEDCB and explore characteristic with UUID 19B10001-E8F2-537E-4F6C-D104768A1214.
-  Writing a byte value such as 0x40 should turn on the LED.
-  Writing a byte value of 0x00 should turn off the LED.
- */
- 
 #include <CurieBLE.h>
 
 BLEPeripheral blePeripheral;  // BLE Peripheral Device (the board you're programming)
@@ -58,20 +42,7 @@ void loop() {
     // print the central's MAC address:
     Serial.println(central.address());
 
-    // while the central is still connected to peripheral:
-    while (central.connected()) {
-      // if the remote device wrote to the characteristic,
-      // use the value to control the LED:
-      if (switchCharacteristic.written()) {
-        if (switchCharacteristic.value()) {   // any value other than 0
-          Serial.println("LED on");
-          digitalWrite(ledPin, HIGH);         // will turn the LED on
-        } else {                              // a 0 value
-          Serial.println(F("LED off"));
-          digitalWrite(ledPin, LOW);          // will turn the LED off
-        }
-      }
-    }
+    ls
 
     // when the central disconnects, print it out:
     Serial.print(F("Disconnected from central: "));
