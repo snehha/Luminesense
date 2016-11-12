@@ -9,32 +9,30 @@
    and translate it to an orientation
 */
 
-#include "CurieIMU.h"
-#include "CurieBLE.h"
-BLEPeripheral blePeripheral;
-BLEService imuService("19B10000-E8F2-537E-4F6C-D104768A1214");
+#include <CurieIMU.h>
+#include <CurieBLE.h>
+
+BLEPeripheral blePeripheral;  // BLE Peripheral Device (the board you're programming)
+BLEService ledService("19B10000-E8F2-537E-4F6C-D104768A1214"); // BLE LED Service
+
 // BLE LED Switch Characteristic - custom 128-bit UUID, read and writable by central
 BLEUnsignedCharCharacteristic switchCharacteristic("19B10001-E8F2-537E-4F6C-D104768A1214", BLERead | BLEWrite);
+
 const int ledPin = 13;  //pin use for LED
 int lastOrientation = - 1; // previous orientation (for comparison)
 
+
 void setup() {
   Serial.begin(9600); // initialize Serial communication
-  while (!Serial);    // wait for the serial port to open
+  pinMode(ledPin, OUTPUT);
 
-  // initialize device
-  Serial.println("Initializing IMU device...");
-  CurieIMU.begin();
-
-  // Set the accelerometer range to 2G
-  CurieIMU.setAccelerometerRange(2);
   //Bluetooth
   // set advertised local name and service UUID:
-  blePeripheral.setLocalName("IMUComms");
-  blePeripheral.setAdvertisedServiceUuid(imuService.uuid());
+  blePeripheral.setLocalName("TeamUno");
+  blePeripheral.setAdvertisedServiceUuid(ledService.uuid());
 
   // add service and characteristic:
-  blePeripheral.addAttribute(imuService);
+  blePeripheral.addAttribute(ledService);
   blePeripheral.addAttribute(switchCharacteristic);
 
   // set the initial value for the characeristic:
@@ -43,21 +41,22 @@ void setup() {
   // begin advertising BLE service:
   blePeripheral.begin();
   Serial.println("BLE IMU Peripheral");
+
+  
+  while (!Serial);    // wait for the serial port to open
+
+  // initialize device
+  Serial.println("Initializing IMU device...");
+  CurieIMU.begin();
+
+  // Set the accelerometer range to 2G
+  CurieIMU.setAccelerometerRange(2);
+  
 }
 
-void loop() {
-  int orientation = - 1;   // the board's orientation
-  BLECentral central = blePeripheral.central();
-  String orientationString; // string for printing description of orientation
-  /*
-    The orientations of the board:
-    0: flat, processor facing up
-    1: flat, processor facing down
-    2: landscape, analog pins down
-    3: landscape, analog pins up
-    4: portrait, USB connector up
-    5: portrait, USB connector down
-  */
+void getIMUReadings(){
+  int orientation = -1; //  the board's orientation
+   String orientationString; // string for printing description of orientation
   // read accelerometer:
   int x = CurieIMU.readAccelerometer(X_AXIS);
   int y = CurieIMU.readAccelerometer(Y_AXIS);
@@ -103,22 +102,37 @@ void loop() {
     lastOrientation = orientation;
   }
 }
+void loop() {
+  //int orientation = - 1;   // the board's orientation
+  getIMUReadings();
+  BLECentral central = blePeripheral.central();
+  if (central) {
+    Serial.print("Connected to central: ");
+    // print the central's MAC address:
+    Serial.println(central.address());
+    
+    // while the central is still connected to peripheral:
+    while (central.connected()) {
+      // if the remote device wrote to the characteristic,
+      // use the value to control the LED:
+      Serial.println("Central is connected");
+//      if (switchCharacteristic.written()) {
+//        if (switchCharacteristic.value()) {   // any value other than 0
+//          Serial.println("LED on");
+//          digitalWrite(ledPin, HIGH);         // will turn the LED on
+//        } else {                              // a 0 value
+//          Serial.println(F("LED off"));
+//          digitalWrite(ledPin, LOW);          // will turn the LED off
+//        }
+//      }
+    }
+    //Serial.println("Central is disconnected");
+    
+    // when the central disconnects, print it out:
+    Serial.print(F("Disconnected from central: "));
+    Serial.println(central.address());
+    delay(1000);
+  }
+ 
+}
 
-/*
-   Copyright (c) 2016 Intel Corporation.  All rights reserved.
-
-   This library is free software; you can redistribute it and/or
-   modify it under the terms of the GNU Lesser General Public
-   License as published by the Free Software Foundation; either
-   version 2.1 of the License, or (at your option) any later version.
-
-   This library is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   Lesser General Public License for more details.
-
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
-
-*/
