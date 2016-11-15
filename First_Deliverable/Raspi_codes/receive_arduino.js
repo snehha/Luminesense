@@ -33,4 +33,27 @@ noble.on('discover', function(peripheral) {
 });
 
 
+function getSocketLabel(uuid) {
+  var label = null;
 
+  if(uuid == AX_CHAR_UUID) {
+    label = 'ax:edison';
+  }
+  else if(uuid == AY_CHAR_UUID) {
+    label = 'ay:edison';
+  }
+  else if(uuid == AZ_CHAR_UUID) {
+    label = 'az:edison';
+  }
+  else if(uuid == GX_CHAR_UUID) {
+    label = 'gx:edison';
+  }
+  else if(uuid == GY_CHAR_UUID) {
+    label = 'gy:edison';
+  }
+  else if(uuid == GZ_CHAR_UUID) {
+    label = 'gz:edison';
+  }
+
+  return label;
+}
