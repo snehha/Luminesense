@@ -35,7 +35,7 @@ noble.on('stateChange', function(state) {
 //   });
 // });
 
-noble.on(‘discover’, function(peripheral) { 
+noble.on('discover', function(peripheral) { 
 
   var macAddress = peripheral.uuid;
   var rss = peripheral.rssi;
