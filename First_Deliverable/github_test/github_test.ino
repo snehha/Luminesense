@@ -81,7 +81,8 @@ void loop() {
     digitalWrite(INDICATOR_PIN, HIGH);
     
     while(central.connected()) {
-      //updateImuData();
+      //Serial.println("Hello");
+      updateImuData();
     }
     
     Serial.print("Disconnected from central: ");
