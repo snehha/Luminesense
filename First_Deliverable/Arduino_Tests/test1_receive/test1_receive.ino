@@ -5,7 +5,7 @@ BLEPeripheral blePeripheral;  // BLE Peripheral Device (the board you're program
 BLEService imuService("19B10000-E8F2-537E-4F6C-D104768A1214"); // BLE IMU Service
 
 // BLE IMU Characteristic - custom 128-bit UUID, read and writable by central
-BLEUnsignedCharCharacteristic dataChar("19B10001-E8F2-537E-4F6C-D104768A1214", BLERead | BLEWrite);
+BLEUnsignedCharCharacteristic dataChar("19B10001-E8F2-537E-4F6C-D104768A1214", BLERead | BLENotify);
 
 const int ledPin = 13;  //pin use for LED -- used to test if the bluetooth connection is successful
 int lastOrientation = - 1; // previous orientation (for comparison)
@@ -13,6 +13,11 @@ int lastOrientation = - 1; // previous orientation (for comparison)
 void setup() {
   Serial.begin(9600); // initialize Serial communication
   pinMode(ledPin, OUTPUT);
+
+  Serial.println("Initializing IMU device...");
+  CurieIMU.begin();
+  // Set the accelerometer range to 2G
+  CurieIMU.setAccelerometerRange(2);
 
   //Bluetooth
   blePeripheral.setLocalName("TeamUno");
@@ -28,15 +33,6 @@ void setup() {
   // begin advertising BLE service:
   blePeripheral.begin();
   Serial.println("Bluetooth device active, waiting for connections...");
-  
-  //IMU Setup
-  while (!Serial);    // wait for the serial port to open
-  // initialize device
-  Serial.println("Initializing IMU device...");
-  CurieIMU.begin();
-  // Set the accelerometer range to 2G
-  CurieIMU.setAccelerometerRange(2);
-  
 }
 
 void getIMUReadings(){
