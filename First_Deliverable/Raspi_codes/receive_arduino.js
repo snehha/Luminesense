@@ -4,18 +4,30 @@ noble.startScanning();
 noble.startScanning([], true); // any service UUID, allow duplicates
 
 var IMU_SERVICE_UUID = '19B10000-E8F2-537E-4F6C-D104768A1214';
-
-
 noble.on('stateChange', function(state) {
-  if(state === 'poweredOn') {
-    console.log('Start BLE scan...')
-    noble.startScanning([IMU_SERVICE_UUID], false);
-  }
-  else {
-    console.log('Cannot scan... state is not poweredOn')
+  if (state === 'poweredOn') {
+    noble.startScanning();
+  } else {
     noble.stopScanning();
   }
 });
+noble.on('discover', function(peripheral) { 
+  var macAddress = peripheral.uuid;
+  var rss = peripheral.rssi;
+  var localName = advertisement.localName; 
+  console.log('found device: ', macAdress, ' ', localName, ' ', rss);   
+});
+
+// noble.on('stateChange', function(state) {
+//   if(state === 'poweredOn') {
+//     console.log('Start BLE scan...')
+//     noble.startScanning([IMU_SERVICE_UUID], false);
+//   }
+//   else {
+//     console.log('Cannot scan... state is not poweredOn')
+//     noble.stopScanning();
+//   }
+// });
 
 // Discover the peripheral's IMU service and corresponding characteristics
 // Then, emit each data point on the socket stream
@@ -35,9 +47,4 @@ noble.on('stateChange', function(state) {
 //   });
 // });
 
-noble.on('discover', function(peripheral) { 
-  var macAddress = peripheral.uuid;
-  var rss = peripheral.rssi;
-  var localName = advertisement.localName; 
-  console.log('found device: ', macAdress, ' ', localName, ' ', rss);   
-});
+
