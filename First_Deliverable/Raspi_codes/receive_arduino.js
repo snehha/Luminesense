@@ -4,7 +4,7 @@ noble.startScanning();
 noble.startScanning([], true); // any service UUID, allow duplicates
 
 var IMU_SERVICE_UUID = '19B10000-E8F2-537E-4F6C-D104768A1214';
-var allowDuplicates = <false|true>; // default: false
+
 
 noble.on('stateChange', function(state) {
   if(state === 'poweredOn') {
