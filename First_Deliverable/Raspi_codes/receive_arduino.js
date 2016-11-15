@@ -31,6 +31,7 @@ noble.on('stateChange', function(state) {
 // Discover the peripheral's IMU service and corresponding characteristics
 // Then, emit each data point on the socket stream
 noble.on('discover', function(peripheral) {
+	console.log('Inside here in line 34.');
   peripheral.connect(function(error) {
     console.log('Connected to peripheral: ' + peripheral.uuid);
     peripheral.discoverServices([IMU_SERVICE_UUID], function(error, services) {
