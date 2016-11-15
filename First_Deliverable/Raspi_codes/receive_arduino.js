@@ -1,17 +1,32 @@
 var noble = require('noble');
 
+// MODIFY THIS WITH THE APPROPRIATE URL
+var socket = require('socket.io-client')('WEB-SERVER-DOMAIN-HERE:8080');
 
-var IMU_SERVICE_UUID = '19B10000E8F2537E4F6CD104768A1214';
+// These should correspond to the peripheral's service and characteristic UUIDs
+var IMU_SERVICE_UUID = '2947ac9efc3811e586aa5e5517507c66';
+var AX_CHAR_UUID =  '2947af14fc3811e586aa5e5517507c66';
+var AY_CHAR_UUID = '2947b090fc3811e586aa5e5517507c66';
+var AZ_CHAR_UUID = '2947b180fc3811e586aa5e5517507c66';
+var GX_CHAR_UUID = '2947b252fc3811e586aa5e5517507c66';
+var GY_CHAR_UUID = '2947b5aefc3811e586aa5e5517507c66';
+var GZ_CHAR_UUID = '2947b694fc3811e586aa5e5517507c66';
+
+socket.on('connect', function() {
+  console.log('Connected to server');
+
+  socket.emit('hello');
+});
 
 noble.on('stateChange', function(state) {
-   if(state === 'poweredOn') {
-     console.log('Start BLE scan...')
-     noble.startScanning([IMU_SERVICE_UUID], false);
-   }
-   else {
-     console.log('Cannot scan... state is not poweredOn')
-     noble.stopScanning();
-   }
+  if(state === 'poweredOn') {
+    console.log('Start BLE scan...')
+    noble.startScanning([IMU_SERVICE_UUID], false);
+  }
+  else {
+    console.log('Cannot scan... state is not poweredOn')
+    noble.stopScanning();
+  }
 });
 
 // Discover the peripheral's IMU service and corresponding characteristics
@@ -31,7 +46,6 @@ noble.on('discover', function(peripheral) {
     });
   });
 });
-
 
 function getSocketLabel(uuid) {
   var label = null;
@@ -56,4 +70,15 @@ function getSocketLabel(uuid) {
   }
 
   return label;
+}
+
+function emitSensorData(characteristic) {
+  var socketLabel = getSocketLabel(characteristic.uuid);
+  console.log(socketLabel);
+
+  characteristic.on('read', function(data) {
+    socket.emit(socketLabel, data.readInt32LE(0));
+  });
+
+  characteristic.notify('true', function(error) { if (error) throw error; });
 }
