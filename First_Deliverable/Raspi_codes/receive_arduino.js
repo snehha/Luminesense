@@ -14,7 +14,6 @@ var GZ_CHAR_UUID = '2947b694fc3811e586aa5e5517507c66';
 
 socket.on('connect', function() {
   console.log('Connected to server');
-
   socket.emit('hello');
 });
 
@@ -37,10 +36,10 @@ noble.on('discover', function(peripheral) {
     peripheral.discoverServices([IMU_SERVICE_UUID], function(error, services) {
       var imuService = services[0];
       console.log('Discovered IMU service');
-
       imuService.discoverCharacteristics([], function(error, characteristics) {
         characteristics.forEach(function(characteristic) {
-          emitSensorData(characteristic);
+        	console.log(characteristic.uuid);
+          //emitSensorData(characteristic);
         });
       });
     });
@@ -51,22 +50,22 @@ function getSocketLabel(uuid) {
   var label = null;
 
   if(uuid == AX_CHAR_UUID) {
-    label = 'ax:edison';
+    label = 'ax:raspi';
   }
   else if(uuid == AY_CHAR_UUID) {
-    label = 'ay:edison';
+    label = 'ay:raspi';
   }
   else if(uuid == AZ_CHAR_UUID) {
-    label = 'az:edison';
+    label = 'az:raspi';
   }
   else if(uuid == GX_CHAR_UUID) {
-    label = 'gx:edison';
+    label = 'gx:raspi';
   }
   else if(uuid == GY_CHAR_UUID) {
-    label = 'gy:edison';
+    label = 'gy:raspi';
   }
   else if(uuid == GZ_CHAR_UUID) {
-    label = 'gz:edison';
+    label = 'gz:raspi';
   }
 
   return label;
