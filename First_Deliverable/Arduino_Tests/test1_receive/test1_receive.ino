@@ -96,16 +96,7 @@ void send_data(){
   Serial.println(photoReading);
   const unsigned char dataCharArray[2] = { 0, (char)photoReading};
   dataChar.setValue(photoReading);
-  
-//  int heartRateMeasurement = analogRead(A0);
-//  int heartRate = map(heartRateMeasurement, 0, 1023, 0, 100);
-//  if (heartRate != oldHeartRate) {      // if the heart rate has changed
-//    Serial.print("Heart Rate is now: "); // print it
-//    Serial.println(heartRate);
-//    const unsigned char heartRateCharArray[2] = { 0, (char)heartRate };
-//    heartRateChar.setValue(heartRateCharArray, 2);  // and update the heart rate measurement characteristic
-//    oldHeartRate = heartRate;           // save the level for next comparison
-//  }
+  delay(1000);
 }
 void loop() {
   //int orientation = - 1;   // the board's orientation
@@ -122,15 +113,12 @@ void loop() {
       // if the remote device wrote to the characteristic,
       // use the value to control the LED:
       Serial.println("Central is connected");
-      //send_data();
-      
+      send_data(); 
     }
-    
     // when the central disconnects, print it out:
     digitalWrite(ledPin, LOW);
     Serial.print("Disconnected from central: ");
     Serial.println(central.address());
-    delay(1000);
   }
   delay(1000);
 }
