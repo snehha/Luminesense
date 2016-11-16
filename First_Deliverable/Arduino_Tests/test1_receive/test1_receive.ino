@@ -13,6 +13,8 @@ BLEUnsignedCharCharacteristic dataChar(IMU_READINGS_UUID, BLERead | BLENotify);
 BLEIntCharacteristic idNum(LIGHT_ID_UUID, BLERead | BLENotify);
 const int ledPin = 13;  //pin use for LED -- used to test if the bluetooth connection is successful
 int lastOrientation = - 1; // previous orientation (for comparison)
+int orientation = -1;
+char orientationString = '\0';
 int intNumVal = 0;
 int dataVal = '\0';
 
@@ -45,7 +47,7 @@ void setup() {
 
 void updateReadings(){
   int orientation = -1; //  the board's orientation
-  String orientationString; // string for printing description of orientation
+  char orientationString; // string for printing description of orientation
   // read accelerometer:
   int x = CurieIMU.readAccelerometer(X_AXIS);
   int y = CurieIMU.readAccelerometer(Y_AXIS);
@@ -68,30 +70,30 @@ void updateReadings(){
   } else if ( (absY > absX) && (absY > absZ)) {
     // base orientation on Y
     if (y > 0) {
-      orientationString = "digital pins up";
+      orientationString = 'u';
       orientation = 2;
     } else {
-      orientationString = "analog pins up";
+      orientationString = 'd';
       orientation = 3;
     }
   } else {
     // base orientation on X
     if (x < 0) {
-      orientationString = "connector up";
+      //orientationString = "connector up";
+      orientationString = 'u';
       orientation = 4;
     } else {
-      orientationString = "connector down";
+      orientationString = 'd';
       orientation = 5;
     }
   }
-
-  // if the orientation has changed, print out a description:
   if (orientation != lastOrientation) {
     Serial.println(orientationString);
     dataChar.setValue(orientationString);
     lastOrientation = orientation;
   }
-  delay(1000);
+  // if the orientation has changed, print out a description:
+ 
 }
 
 void send_data(){
@@ -109,7 +111,8 @@ void loop() {
   
   Serial.println("Inside loop: ");
   BLECentral central = blePeripheral.central();
-  if (central) {
+  updateReadings();
+  /*if (central) {
     Serial.print("Connected to central: ");
     // print the central's MAC address:
     Serial.println(central.address());
@@ -127,6 +130,7 @@ void loop() {
     Serial.print("Disconnected from central: ");
     Serial.println(central.address());
   }
+  */
   delay(1000);
 }
 
