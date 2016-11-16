@@ -15,7 +15,7 @@ socket.on('connect', function() {
 noble.on('stateChange', function(state) {
   if(state === 'poweredOn') {
     console.log('Start BLE scan...')
-    noble.startScanning([IMU_SERVICE_UUID], false);
+    noble.startScanning();
     console.log('Help');  
 }
   else {
@@ -26,22 +26,85 @@ noble.on('stateChange', function(state) {
 
 // Discover the peripheral's IMU service and corresponding characteristics
 // Then, emit each data point on the socket stream
+// noble.on('discover', function(peripheral) {
+// 	console.log('Inside here in line 34.');
+//   peripheral.connect(function(error) {
+//     console.log('Connected to peripheral: ' + peripheral.uuid);
+//     peripheral.discoverServices([IMU_SERVICE_UUID], function(error, services) {
+//       var imuService = services[0];
+//       console.log('Discovered IMU service');
+//       imuService.discoverCharacteristics([], function(error, characteristics) {
+//         characteristics.forEach(function(characteristic) {
+//         	console.log(characteristic.uuid);
+//           //emitSensorData(characteristic);
+//         });
+//       });
+//     });
+//   });
+// });
+
 noble.on('discover', function(peripheral) {
-	console.log('Inside here in line 34.');
-  peripheral.connect(function(error) {
-    console.log('Connected to peripheral: ' + peripheral.uuid);
-    peripheral.discoverServices([IMU_SERVICE_UUID], function(error, services) {
-      var imuService = services[0];
-      console.log('Discovered IMU service');
-      imuService.discoverCharacteristics([], function(error, characteristics) {
-        characteristics.forEach(function(characteristic) {
-        	console.log(characteristic.uuid);
-          //emitSensorData(characteristic);
-        });
-      });
+  if (peripheral.id === peripheralIdOrAddress || peripheral.address === peripheralIdOrAddress) {
+    noble.stopScanning();
+    console.log('peripheral with ID ' + peripheral.id + ' found');
+
+    peripheral.once('disconnect', function() {
+      console.log('disconnected');
+      process.exit(0);
     });
-  });
+
+    peripheral.connect(function(error) {
+      console.log('connected');
+      peripheral.discoverServices([], onServicesDiscovered);
+    });
+  }
 });
+
+function onServicesDiscovered(error, services) {
+  console.log('services discovered');
+
+  services.forEach(function(service) {
+    if (service.uuid == IMU_SERVICE_UUID) {
+      
+      service.discoverCharacteristics([], onCharacteristicDiscovered);
+    }
+  });
+}
+
+
+function onCharacteristicDiscovered(error, characteristics) {
+  console.log('characteristics discovered');
+
+  characteristics.forEach(function(characteristic) {
+    if (characteristic.uuid == IMU_READINGS_UUID) {
+      characteristic.on('read', onIMUCharacteristicsRead);
+    } else if (characteristic.uuid == LIGHT_ID_UUID) {
+      characteristic.on('read', onLightCharacteristicRead);
+
+      characteristic.notify(true, function(error) {
+        console.log('buttonCharacteristic notification on');
+      });
+    }
+  });
+}
+
+function onIMUCharacteristicsRead(data, isNotification) {
+  console.log('imuCharacteristic read response value: ', data.readChar8(0));
+}
+
+
+
+function onLightCharacteristicRead(data, isNotification) {
+  if (isNotification) {
+    
+    console.log('idCharacteristic notification value: ', data.readInt8(0));
+  } else {
+    
+    console.log('idCharacteristic read response value: ', data.readInt8(0));
+  }
+}
+//Socket stuff-- used later 
+/*
 
 function getSocketLabel(uuid) {
   var label = null;
@@ -67,3 +130,4 @@ function emitSensorData(characteristic) {
 
   characteristic.notify('true', function(error) { if (error) throw error; });
 }
+*/
