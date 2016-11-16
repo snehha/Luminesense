@@ -102,7 +102,7 @@ void send_data(){
   int photoReading = map(photoDiode, 0, 1023, 0, 100);
   Serial.print("PhotoDiode Reading: "); // print it
   Serial.println(photoReading);
-  const unsigned char dataCharArray[2] = { 0, (char)photoReading};
+  //const unsigned char dataCharArray[2] = { 0, (char)photoReading};
   idNum.setValue(photoReading);
   delay(1000);
 }
