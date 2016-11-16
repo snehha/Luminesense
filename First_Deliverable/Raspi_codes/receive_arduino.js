@@ -4,14 +4,9 @@ var noble = require('noble');
 var socket = require('socket.io-client')('WEB-SERVER-DOMAIN-HERE:8080');
 
 // These should correspond to the peripheral's service and characteristic UUIDs
-var IMU_SERVICE_UUID = '2947ac9e-fc38-11e5-86aa-5e5517507c66';
-var AX_CHAR_UUID =  '2947af14-fc38-11e5-86aa-5e5517507c66';
-var AY_CHAR_UUID = '2947b090-fc38-11e5-86aa-5e5517507c66';
-var AZ_CHAR_UUID = '2947b180fc3811e586aa5e5517507c66';
-var GX_CHAR_UUID = '2947b252fc3811e586aa5e5517507c66';
-var GY_CHAR_UUID = '2947b5aefc3811e586aa5e5517507c66';
-var GZ_CHAR_UUID = '2947b694fc3811e586aa5e5517507c66';
-
+var IMU_SERVICE_UUID = "0bdb190a-abad-11e6-80f5-76304dec7eb7";
+var LIGHT_ID_UUID = "0bdb1c0c-abad-11e6-80f5-76304dec7eb7";
+var IMU_READINGS_UUID = "0bdb1d92-abad-11e6-80f5-76304dec7eb7"
 socket.on('connect', function() {
   console.log('Connected to server');
   socket.emit('hello');
@@ -51,24 +46,13 @@ noble.on('discover', function(peripheral) {
 function getSocketLabel(uuid) {
   var label = null;
 
-  if(uuid == AX_CHAR_UUID) {
-    label = 'ax:raspi';
+  if(uuid == LIGHT_ID_UUID) {
+    label = 'light_code:raspi';
   }
-  else if(uuid == AY_CHAR_UUID) {
-    label = 'ay:raspi';
+  else if(uuid == IMU_SERVICE_UUID) {
+     label = 'ay:raspi';
   }
-  else if(uuid == AZ_CHAR_UUID) {
-    label = 'az:raspi';
-  }
-  else if(uuid == GX_CHAR_UUID) {
-    label = 'gx:raspi';
-  }
-  else if(uuid == GY_CHAR_UUID) {
-    label = 'gy:raspi';
-  }
-  else if(uuid == GZ_CHAR_UUID) {
-    label = 'gz:raspi';
-  }
+  // }
 
   return label;
 }
