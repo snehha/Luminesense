@@ -2,7 +2,7 @@ var noble = require('noble');
 
 // MODIFY THIS WITH THE APPROPRIATE URL
 var socket = require('socket.io-client')('WEB-SERVER-DOMAIN-HERE:8080');
-
+var peripheralIdOrAddress = process.argv[2].toLowerCase();
 // These should correspond to the peripheral's service and characteristic UUIDs
 var IMU_SERVICE_UUID = "0bdb190a-abad-11e6-80f5-76304dec7eb7";
 var LIGHT_ID_UUID = "0bdb1c0c-abad-11e6-80f5-76304dec7eb7";
