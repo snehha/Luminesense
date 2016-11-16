@@ -1,43 +1,51 @@
 #include <CurieIMU.h>
 #include <CurieBLE.h>
 
-BLEPeripheral blePeripheral;  // BLE Peripheral Device (the board you're programming)
-BLEService imuService("19B10000-E8F2-537E-4F6C-D104768A1214"); // BLE IMU Service
+#define IMU_SERVICE_UUID "0bdb190a-abad-11e6-80f5-76304dec7eb7"
+#define LIGHT_ID_UUID "0bdb1c0c-abad-11e6-80f5-76304dec7eb7"
+#define IMU_READINGS_UUID "0bdb1d92-abad-11e6-80f5-76304dec7eb7"
 
-// BLE IMU Characteristic - custom 128-bit UUID, read and writable by central
-BLEUnsignedCharCharacteristic dataChar("19B10001-E8F2-537E-4F6C-D104768A1214", BLERead | BLENotify);
+BLEPeripheral blePeripheral;  
+BLEService imuService(IMU_SERVICE_UUID); 
 
+// IMU output and light id acts as a characteristic
+BLEUnsignedCharCharacteristic dataChar(IMU_READINGS_UUID, BLERead | BLENotify);
+BLEIntCharacteristic idNum(LIGHT_ID_UUID, BLERead | BLENotify);
 const int ledPin = 13;  //pin use for LED -- used to test if the bluetooth connection is successful
 int lastOrientation = - 1; // previous orientation (for comparison)
+int intNumVal = 0;
+int dataVal = '\0';
+
 
 void setup() {
   Serial.begin(9600); // initialize Serial communication
   pinMode(ledPin, OUTPUT);
-
   Serial.println("Initializing IMU device...");
   CurieIMU.begin();
-  // Set the accelerometer range to 2G
-  CurieIMU.setAccelerometerRange(2);
-
+  CurieIMU.autoCalibrateGyroOffset();
+  CurieIMU.autoCalibrateAccelerometerOffset(X_AXIS, 0);
+  CurieIMU.autoCalibrateAccelerometerOffset(Y_AXIS, 0);
+  CurieIMU.autoCalibrateAccelerometerOffset(Z_AXIS, 1);
+  
   //Bluetooth
   blePeripheral.setLocalName("TeamUno");
   blePeripheral.setAdvertisedServiceUuid(imuService.uuid());
-  //blePeripheral.addAttribute(heartRateChar); // add the Heart Rate Measurement characteristic
-  // add service and characteristic:
   blePeripheral.addAttribute(imuService);
   blePeripheral.addAttribute(dataChar);
+  blePeripheral.addAttribute(idNum);
   
   // set the initial value for the characeristic:
-  dataChar.setValue(0);
+  dataChar.setValue(dataVal);
+  idNum.setValue(intNumVal);
   
   // begin advertising BLE service:
   blePeripheral.begin();
   Serial.println("Bluetooth device active, waiting for connections...");
 }
 
-void getIMUReadings(){
+void updateReadings(){
   int orientation = -1; //  the board's orientation
-   String orientationString; // string for printing description of orientation
+  String orientationString; // string for printing description of orientation
   // read accelerometer:
   int x = CurieIMU.readAccelerometer(X_AXIS);
   int y = CurieIMU.readAccelerometer(Y_AXIS);
@@ -51,10 +59,10 @@ void getIMUReadings(){
   if ( (absZ > absX) && (absZ > absY)) {
     // base orientation on Z
     if (z > 0) {
-      orientationString = "up";
+      orientationString = 'u';
       orientation = 0;
     } else {
-      orientationString = "down";
+      orientationString = 'd';
       orientation = 1;
     }
   } else if ( (absY > absX) && (absY > absZ)) {
@@ -80,8 +88,10 @@ void getIMUReadings(){
   // if the orientation has changed, print out a description:
   if (orientation != lastOrientation) {
     Serial.println(orientationString);
+    dataChar.setValue(orientationString);
     lastOrientation = orientation;
   }
+  delay(1000);
 }
 
 void send_data(){
@@ -91,12 +101,12 @@ void send_data(){
   Serial.print("PhotoDiode Reading: "); // print it
   Serial.println(photoReading);
   const unsigned char dataCharArray[2] = { 0, (char)photoReading};
-  dataChar.setValue(photoReading);
+  idNum.setValue(photoReading);
   delay(1000);
 }
 void loop() {
-  //int orientation = - 1;   // the board's orientation
-  //getIMUReadings();
+  
+  
   Serial.println("Inside loop: ");
   BLECentral central = blePeripheral.central();
   if (central) {
@@ -109,7 +119,8 @@ void loop() {
       // if the remote device wrote to the characteristic,
       // use the value to control the LED:
       Serial.println("Central is connected");
-      send_data(); 
+      updateReadings();
+      //send_data(); 
     }
     // when the central disconnects, print it out:
     digitalWrite(ledPin, LOW);

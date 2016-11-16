@@ -48,7 +48,7 @@ void setup() {
   CurieIMU.autoCalibrateAccelerometerOffset(Z_AXIS, 1);
 
   // Initialize BLE peripheral
-  blePeripheral.setLocalName("IMU");
+  blePeripheral.setLocalName("teamUno");
   blePeripheral.setAdvertisedServiceUuid(imuService.uuid());
   blePeripheral.addAttribute(imuService);
   blePeripheral.addAttribute(axChar);
