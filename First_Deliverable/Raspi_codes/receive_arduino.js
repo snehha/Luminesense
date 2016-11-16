@@ -62,8 +62,9 @@ noble.on('discover', function(peripheral) {
 
 function onServicesDiscovered(error, services) {
   console.log('services discovered');
-  console.log(service.uuid);
+
   services.forEach(function(service) {
+    console.log(service.uuid);
     if (service.uuid == IMU_SERVICE_UUID) {
       console.log('going to on characteristic discovered');
       console.log(service.uuid);
