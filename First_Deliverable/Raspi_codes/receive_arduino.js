@@ -15,7 +15,7 @@ socket.on('connect', function() {
 noble.on('stateChange', function(state) {
   if(state === 'poweredOn') {
     console.log('Start BLE scan...')
-    noble.startScanning([IMU_SERVICE_UUID], true);
+    noble.startScanning([IMU_SERVICE_UUID], false);
     console.log('Help');  
 }
   else {
