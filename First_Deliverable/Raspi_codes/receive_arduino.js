@@ -65,7 +65,8 @@ function onServicesDiscovered(error, services) {
 
   services.forEach(function(service) {
     if (service.uuid == IMU_SERVICE_UUID) {
-      
+      console.log('going to on characteristic discovered');
+      console.log(service.uuid);
       service.discoverCharacteristics([], onCharacteristicDiscovered);
     }
   });
@@ -82,7 +83,7 @@ function onCharacteristicDiscovered(error, characteristics) {
       characteristic.on('read', onLightCharacteristicRead);
 
       characteristic.notify(true, function(error) {
-        console.log('buttonCharacteristic notification on');
+        console.log('idCharacteristic notification on');
       });
     }
   });
