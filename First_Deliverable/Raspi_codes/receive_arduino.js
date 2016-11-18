@@ -90,8 +90,6 @@ function onLightCharacteristicRead(data, isNotification) {
   }
 }
 
-
-// Particle Part
 particle.login({username: 'luminesense16@gmail.com', password: 'teamuno1'}).then(
   function(data){
     console.log('API call completed on promise resolve: ', data.body.access_token);
