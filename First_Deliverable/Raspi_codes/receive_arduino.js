@@ -112,7 +112,7 @@ function functionPost() {
     var fnPr = particle.callFunction({ 
       deviceId: '21002b001247353236343033',
       name: 'toggleLights', 
-      argument: '1, u', 
+      argument: '1,u', 
       auth: token
     });
   }
@@ -120,7 +120,7 @@ function functionPost() {
     var fnPr = particle.callFunction({ 
       deviceId: '21002b001247353236343033',
       name: 'toggleLights', 
-      argument: '1, d', 
+      argument: '1,d', 
       auth: token
     });
   } 
