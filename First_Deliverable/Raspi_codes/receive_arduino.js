@@ -80,16 +80,18 @@ function onCharacteristicDiscovered(error, characteristics) {
 
 function onIMUCharacteristicsRead(data, isNotification) {
   console.log('imuCharacteristic read response value: ', data.readInt8(0));
+  var on_off = data.readInt8(0);
 }
 
 
 
 function onLightCharacteristicRead(data, isNotification) {
   if (isNotification) {
-    
     console.log('idCharacteristic notification value: ', data.readInt8(0));
+    var light_id = data.readInt8(0);
   } else {
     console.log('idCharacteristic read response value: ', data.readInt8(0));
+    //var light_id = data.readInt8(0);
   }
 }
 
@@ -103,7 +105,12 @@ particle.login({username: 'luminesense16@gmail.com', password: 'teamuno1'}).then
 );
 
 var token = '7147d52549a2ef1d0920763e843ff897435c5643';
-var fnPr = particle.callFunction({ deviceId: '21002b001247353236343033', name: 'toggleLights', argument: '99,U', auth: token });
+var fnPr = particle.callFunction({ 
+  deviceId: '21002b001247353236343033',
+  name: 'toggleLights', 
+  argument: 'light_id, on_off', 
+  auth: token
+});
 
 fnPr.then(
   function(data) {
