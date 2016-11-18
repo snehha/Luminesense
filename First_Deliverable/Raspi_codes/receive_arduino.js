@@ -1,7 +1,7 @@
 var noble = require('noble');
 var Particle = require('particle-api-js');
 var particle = new Particle();  //Particle part 
-var on_off;
+var on_off;s
 // MODIFY THIS WITH THE APPROPRIATE URL
 var socket = require('socket.io-client')('WEB-SERVER-DOMAIN-HERE:8080');
 var peripheralIdOrAddress = process.argv[2].toLowerCase();
@@ -81,6 +81,7 @@ function onCharacteristicDiscovered(error, characteristics) {
 function onIMUCharacteristicsRead(data, isNotification) {
   console.log('imuCharacteristic read response value: ', data.readInt8(0));
   on_off = data.readInt8(0);
+  functionPost();
 }
 
 
@@ -89,6 +90,7 @@ function onLightCharacteristicRead(data, isNotification) {
   if (isNotification) {
     console.log('idCharacteristic notification value: ', data.readInt8(0));
     var light_id = data.readInt8(0);
+    // functionPost();
   } else {
     console.log('idCharacteristic read response value: ', data.readInt8(0));
     //var light_id = data.readInt8(0);
@@ -105,35 +107,31 @@ particle.login({username: 'luminesense16@gmail.com', password: 'teamuno1'}).then
 );
 
 var token = '7147d52549a2ef1d0920763e843ff897435c5643';
-if(on_off == 117){
-  var fnPr = particle.callFunction({ 
-    deviceId: '21002b001247353236343033',
-    name: 'toggleLights', 
-    argument: '1, u', 
-    auth: token
-  });
-}
-else if(on_off == 100){
-  var fnPr = particle.callFunction({ 
-    deviceId: '21002b001247353236343033',
-    name: 'toggleLights', 
-    argument: '1, d', 
-    auth: token
-  });
-}
-var fnPr = particle.callFunction({ 
-  deviceId: '21002b001247353236343033',
-  name: 'toggleLights', 
-  argument: '1, on_off', 
-  auth: token
-});
-
-fnPr.then(
+function functionPost() {
+  if(on_off == 117){
+    var fnPr = particle.callFunction({ 
+      deviceId: '21002b001247353236343033',
+      name: 'toggleLights', 
+      argument: '1, u', 
+      auth: token
+    });
+  }
+  else if(on_off == 100){
+    var fnPr = particle.callFunction({ 
+      deviceId: '21002b001247353236343033',
+      name: 'toggleLights', 
+      argument: '1, d', 
+      auth: token
+    });
+  } 
+  fnPr.then(
   function(data) {
     console.log('Function called succesfully:', data);
   }, function(err) {
     console.log('An error occurred:', err);
   });
+}
+
 
 
 //Socket stuff-- used later 
