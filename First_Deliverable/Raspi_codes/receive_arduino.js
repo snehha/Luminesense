@@ -62,9 +62,9 @@ function onCharacteristicDiscovered(error, characteristics) {
   console.log('characteristics discovered');
 
   characteristics.forEach(function(characteristic) {
-    if ((characteristic.uuid == LIGHT_ID_UUID)||(characteristic.uuid == IMU_READINGS_UUID)) {
+    if (characteristic.uuid == IMU_READINGS_UUID) {
       characteristic.on('read', onIMUCharacteristicsRead);
-    //} else if (characteristic.uuid == LIGHT_ID_UUID) {
+    } else if (characteristic.uuid == LIGHT_ID_UUID) {
       characteristic.on('read', onLightCharacteristicRead);
 
       characteristic.notify(true, function(error) {
@@ -75,7 +75,7 @@ function onCharacteristicDiscovered(error, characteristics) {
 }
 
 function onIMUCharacteristicsRead(data, isNotification) {
-  console.log('imuCharacteristic read response value: ', data.readChar(0));
+  console.log('imuCharacteristic read response value: ', data.readChar8(0));
 }
 
 
