@@ -75,7 +75,7 @@ function onCharacteristicDiscovered(error, characteristics) {
 }
 
 function onIMUCharacteristicsRead(data, isNotification) {
-  console.log('imuCharacteristic read response value: ', data.readChar8(0));
+  console.log('imuCharacteristic read response value: ', data.readChar(0));
 }
 
 
