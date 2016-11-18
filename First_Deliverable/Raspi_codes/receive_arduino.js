@@ -65,6 +65,9 @@ function onCharacteristicDiscovered(error, characteristics) {
   characteristics.forEach(function(characteristic) {
     if (characteristic.uuid == IMU_READINGS_UUID) {
       characteristic.on('read', onIMUCharacteristicsRead);
+      characteristic.notify(true, function(error) {
+        console.log('imuCharacteristic notification on');
+      });
     } else if (characteristic.uuid == LIGHT_ID_UUID) {
       characteristic.on('read', onLightCharacteristicRead);
 
@@ -76,7 +79,7 @@ function onCharacteristicDiscovered(error, characteristics) {
 }
 
 function onIMUCharacteristicsRead(data, isNotification) {
-  console.log('imuCharacteristic read response value: ', data.readChar8(0));
+  console.log('imuCharacteristic read response value: ', data.readChar(0));
 }
 
 
@@ -86,11 +89,10 @@ function onLightCharacteristicRead(data, isNotification) {
     
     console.log('idCharacteristic notification value: ', data.readInt8(0));
   } else {
-    
     console.log('idCharacteristic read response value: ', data.readInt8(0));
   }
 }
-/*
+
 particle.login({username: 'luminesense16@gmail.com', password: 'teamuno1'}).then(
   function(data){
     console.log('API call completed on promise resolve: ', data.body.access_token);
@@ -110,7 +112,7 @@ fnPr.then(
     console.log('An error occurred:', err);
   });
 
-*/
+
 //Socket stuff-- used later 
 /*
 
