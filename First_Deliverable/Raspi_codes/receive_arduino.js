@@ -1,7 +1,7 @@
 var noble = require('noble');
 var Particle = require('particle-api-js');
 var particle = new Particle();  //Particle part 
-var on_off;s
+var on_off;
 // MODIFY THIS WITH THE APPROPRIATE URL
 var socket = require('socket.io-client')('WEB-SERVER-DOMAIN-HERE:8080');
 var peripheralIdOrAddress = process.argv[2].toLowerCase();
