@@ -108,7 +108,7 @@ function onLightCharacteristicRead(data, isNotification) {
     console.log('idCharacteristic read response value: ', data.readInt8(0));
   }
 }
-
+/*
 particle.login({username: 'luminesense16@gmail.com', password: 'teamuno1'}).then(
   function(data){
     console.log('API call completed on promise resolve: ', data.body.access_token);
@@ -128,7 +128,7 @@ fnPr.then(
     console.log('An error occurred:', err);
   });
 
-
+*/
 //Socket stuff-- used later 
 /*
 
