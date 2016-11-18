@@ -1,4 +1,6 @@
 var noble = require('noble');
+var Particle = require('particle-api-js');
+var particle = new Particle();  //Particle part 
 
 // MODIFY THIS WITH THE APPROPRIATE URL
 var socket = require('socket.io-client')('WEB-SERVER-DOMAIN-HERE:8080');
@@ -24,25 +26,6 @@ noble.on('stateChange', function(state) {
     noble.stopScanning();
   }
 });
-
-// Discover the peripheral's IMU service and corresponding characteristics
-// Then, emit each data point on the socket stream
-// noble.on('discover', function(peripheral) {
-// 	console.log('Inside here in line 34.');
-//   peripheral.connect(function(error) {
-//     console.log('Connected to peripheral: ' + peripheral.uuid);
-//     peripheral.discoverServices([IMU_SERVICE_UUID], function(error, services) {
-//       var imuService = services[0];
-//       console.log('Discovered IMU service');
-//       imuService.discoverCharacteristics([], function(error, characteristics) {
-//         characteristics.forEach(function(characteristic) {
-//         	console.log(characteristic.uuid);
-//           //emitSensorData(characteristic);
-//         });
-//       });
-//     });
-//   });
-// });
 
 noble.on('discover', function(peripheral) {
   if (peripheral.id === peripheralIdOrAddress || peripheral.address === peripheralIdOrAddress) {
@@ -106,8 +89,31 @@ function onLightCharacteristicRead(data, isNotification) {
     console.log('idCharacteristic read response value: ', data.readInt8(0));
   }
 }
+
+
+// Particle Part
+particle.login({username: 'luminesense16@gmail.com', password: 'teamuno1'}).then(
+  function(data){
+    console.log('API call completed on promise resolve: ', data.body.access_token);
+  },
+  function(err) {
+    console.log('API call completed on promise fail: ', err);
+  }
+);
+
+var token = '7147d52549a2ef1d0920763e843ff897435c5643';
+var fnPr = particle.callFunction({ deviceId: '21002b001247353236343033', name: 'toggleLights', argument: '99,U', auth: token });
+
+fnPr.then(
+  function(data) {
+    console.log('Function called succesfully:', data);
+  }, function(err) {
+    console.log('An error occurred:', err);
+  });
+
+
 //Socket stuff-- used later 
-/*
+
 
 function getSocketLabel(uuid) {
   var label = null;
@@ -133,4 +139,3 @@ function emitSensorData(characteristic) {
 
   characteristic.notify('true', function(error) { if (error) throw error; });
 }
-*/
