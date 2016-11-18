@@ -105,10 +105,26 @@ particle.login({username: 'luminesense16@gmail.com', password: 'teamuno1'}).then
 );
 
 var token = '7147d52549a2ef1d0920763e843ff897435c5643';
+if(on_off == 117){
+  var fnPr = particle.callFunction({ 
+    deviceId: '21002b001247353236343033',
+    name: 'toggleLights', 
+    argument: '1, u', 
+    auth: token
+  });
+}
+else if(on_off == 100){
+  var fnPr = particle.callFunction({ 
+    deviceId: '21002b001247353236343033',
+    name: 'toggleLights', 
+    argument: '1, d', 
+    auth: token
+  });
+}
 var fnPr = particle.callFunction({ 
   deviceId: '21002b001247353236343033',
   name: 'toggleLights', 
-  argument: 'light_id, on_off', 
+  argument: '1, on_off', 
   auth: token
 });
 
