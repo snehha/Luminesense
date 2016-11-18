@@ -62,9 +62,9 @@ function onCharacteristicDiscovered(error, characteristics) {
   console.log('characteristics discovered');
 
   characteristics.forEach(function(characteristic) {
-    if (characteristic.uuid == IMU_READINGS_UUID) {
+    if ((characteristic.uuid == LIGHT_ID_UUID)||(characteristic.uuid == IMU_READINGS_UUID)) {
       characteristic.on('read', onIMUCharacteristicsRead);
-    } else if (characteristic.uuid == LIGHT_ID_UUID) {
+    //} else if (characteristic.uuid == LIGHT_ID_UUID) {
       characteristic.on('read', onLightCharacteristicRead);
 
       characteristic.notify(true, function(error) {
