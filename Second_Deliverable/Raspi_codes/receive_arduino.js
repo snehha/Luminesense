@@ -19,7 +19,7 @@ noble.on('stateChange', function(state) {
   if(state === 'poweredOn') {
     console.log('Start BLE scan...')
     noble.startScanning();
-    console.log('Help');  
+    console.log('Started Scanning');  
 }
   else {
     console.log('Cannot scan... state is not poweredOn')
