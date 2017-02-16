@@ -132,7 +132,7 @@ function functionPost() {
       auth: token
     });
   }
-  else if(on_off == 142){ //'b'
+  else if(on_off == 98){ //'b'
     var fnPr = particle.callFunction({ 
       deviceId: '21002b001247353236343033',
       name: 'toggleLights', 
