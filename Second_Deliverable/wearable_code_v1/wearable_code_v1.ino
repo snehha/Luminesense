@@ -22,9 +22,10 @@ int photoDiodeReading = A0;
 
 
 void setup() {
+  Serial.println("Setup Starting");
   Serial.begin(9600); // initialize Serial communication
   pinMode(ledPin, OUTPUT);
-  //Serial.println("Initializing IMU device...");
+  Serial.println("Initializing IMU device...");
   CurieIMU.begin();
   CurieIMU.autoCalibrateGyroOffset();
   CurieIMU.autoCalibrateAccelerometerOffset(X_AXIS, 0);
@@ -44,17 +45,19 @@ void setup() {
   
   // begin advertising BLE service:
   blePeripheral.begin();
-  //Serial.println("Bluetooth device active, waiting for connections...");
+  Serial.println("Bluetooth device active, waiting for connections...");
 }
 
 void updateReadings(){
   int orientation = -1; //  the board's orientation
-   String orientationString; // string for printing description of orientation
+  String orientationString; // string for printing description of orientation
   // read accelerometer:
   int x = CurieIMU.readAccelerometer(X_AXIS);
   int y = CurieIMU.readAccelerometer(Y_AXIS);
   int z = CurieIMU.readAccelerometer(Z_AXIS);
-
+//  Serial.write("X axis: %d", x);
+//  Serial.write("Y axis: %d", y);
+//  Serial.write("Z axis: %d", z);
   // calculate the absolute values, to determine the largest
   int absX = abs(x);
   int absY = abs(y);
@@ -106,21 +109,22 @@ void updateReadings(){
     else if(orientationString == "connector down"){
       dataVal = 'd';
     }
-//    else if(orientationString == "digital pins up"){
-//      dataVal = 'g';
-//    }
-//    else if(orientationString == "analog pins up"){
-//      dataVal = 'a';
-//    }
+    else if(orientationString == "digital pins up"){
+      dataVal = 'r';    // Change color to red, therefore 'r'
+    }
+    else if(orientationString == "analog pins up"){
+      dataVal = 'b';    // Change color to blue, therefore 'b' 
+    }
 //    else if(orientationString == "board up"){
-//      dataVal = 'b';
+//      dataVal = 'g';
 //    }
 //    else if(orientationString == "board down"){
 //      dataVal = 'w';
 //    }
     
     dataChar.setValue(dataVal);
-    
+//    Serial.print("Orientation String");
+//    Serial.println(orientationString);
     send_data();
     lastOrientation = orientation;
   }

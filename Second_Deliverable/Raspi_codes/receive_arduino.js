@@ -124,6 +124,22 @@ function functionPost() {
       auth: token
     });
   } 
+  else if(on_off == 114){ // 'r'
+    var fnPr = particle.callFunction({ 
+      deviceId: '21002b001247353236343033',
+      name: 'toggleLights', 
+      argument: '1,r', 
+      auth: token
+    });
+  }
+  else if(on_off == 142){ //'b'
+    var fnPr = particle.callFunction({ 
+      deviceId: '21002b001247353236343033',
+      name: 'toggleLights', 
+      argument: '1,b', 
+      auth: token
+    });
+  }
   fnPr.then(
   function(data) {
     console.log('Function called succesfully:', data);
