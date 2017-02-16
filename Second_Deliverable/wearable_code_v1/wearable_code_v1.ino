@@ -75,10 +75,10 @@ void updateReadings(){
   } else if ( (absY > absX) && (absY > absZ)) {
     // base orientation on Y
     if (y > 0) {
-      orientationString = "digital pins up";
+      orientationString = "analog pins up";
       orientation = 2;
     } else {
-      orientationString = "analog pins up";
+      orientationString = "digital pins up";
       orientation = 3;
     }
   } else {
