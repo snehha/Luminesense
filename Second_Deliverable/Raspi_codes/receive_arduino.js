@@ -19,7 +19,7 @@ noble.on('stateChange', function(state) {
   if(state === 'poweredOn') {
     console.log('Start BLE scan...')
     noble.startScanning();
-    console.log('Help');  
+    console.log('Started Scanning');  
 }
   else {
     console.log('Cannot scan... state is not poweredOn')
@@ -124,6 +124,22 @@ function functionPost() {
       auth: token
     });
   } 
+  else if(on_off == 98){ // 'r'
+    var fnPr = particle.callFunction({ 
+      deviceId: '21002b001247353236343033',
+      name: 'toggleLights', 
+      argument: '1,b', 
+      auth: token
+    });
+  }
+  else if(on_off == 114){ //'b'
+    var fnPr = particle.callFunction({ 
+      deviceId: '21002b001247353236343033',
+      name: 'toggleLights', 
+      argument: '1,r', 
+      auth: token
+    });
+  }
   fnPr.then(
   function(data) {
     console.log('Function called succesfully:', data);
