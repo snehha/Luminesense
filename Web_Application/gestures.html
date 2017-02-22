@@ -15,7 +15,7 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="css/sb-admin.css" rel="stylesheet">
+    <link href="css/lumin.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -137,88 +137,51 @@
                 <!-- /.row -->
 
                 <div class="row">
+                    <div class="col-lg-8 button-options" >
+                        <button type="button" class= "button-padding"> ON </button>
+                        <button type="button" class= "button-padding"> OFF </button>
+                        <button type="button" class= "button-padding"> RED </button>
+                        <button type="button" class= "button-padding"> BLUE </button>
+                    </div>
+                </div>
+                <!-- /.row -->
+                <div class="row">
                     <div class="col-lg-6">
-                        <h2>Gestures</h2>
+                        <h2>Gestures Table</h2>
                         <div class="table-responsive">
                             <table class="table table-bordered table-hover table-striped">
                                 <thead>
                                     <tr>
                                         <th>Action</th>
-
                                         <th>Gesture Action
-
                                         </th>
-                                        
-                                            
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td>ON</td>
                                         <td class = "dropdown">
-                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Fist pointing upwards<b class="caret"> </b></a>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                    <a href="#"></i>Fist pointing downwards</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#"></i> Twist Rightwards</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#"></i> Twist Leftwards</a>
-                                                </li>
-                                            </ul>  
+                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Fist pointing upwards</a>
                                         </td>   
                                     </tr>
                                     <tr>
                                         <td>OFF</td>
                                         <td class = "dropdown">
-                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Fist pointing downwards<b class="caret"> </b></a>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                    <a href="#">Fist pointing upwards</i></a>
-                                                </li>
-                                                <li>
-                                                    <a href="#"></i>Twist Rightwards</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#"></i>Twist Leftwards</a>
-                                                </li>
-                                            </ul>  
+                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Fist pointing downwards
                                         </td>   
                                     </tr>
                                     <tr>
-                                        <td>DIM</td>
+                                        <td>RED</td>
                                         <td class = "dropdown">
-                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Twist Rightwards<b class="caret">  </b></a>
-                                            <select id = "sel" class="dropdown-menu">
-                                                <option>
-                                                    Fist pointing upwards
-                                                </option>
-                                                <option>
-                                                    Fist pointing downwards
-                                                </option>
-                                                <option>
-                                                    Twist Leftwards
-                                                </option>
-                                            </select>  
+                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Twist Rightwards </b></a>
+                                           
                                         </td>   
                                     </tr>
                                     <tr>
-                                        <td>BRIGHTEN</td>
+                                        <td>BLUE</td>
                                         <td class = "dropdown">
-                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Twist Leftwards<b class="caret"> </b></a>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                    <a href="#"></i>Fist pointing upwards</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#"></i>Fist pointing downwards</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#"></i>Twist Rightwards </a>
-                                                </li>
-                                            </ul>  
+                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Twist Leftwards</a>
+                                            
                                         </td>   
                                         
                                     </tr>
@@ -229,19 +192,86 @@
                 </div>
                 <!-- /.row -->
 
+                <!--Different kind of table_____ROW_____-->
+                <!-- <div class="row">
+                    <div class="col-lg-6">
+                        <h2>Gestures</h2>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Action</th>
+
+                                        <th>Gesture Action
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>ON</td>
+                                        <td class = "dropdown">
+                                            <select id = "sel" class= "dropdown-toggle" data-toggle="dropdown">
+                                                <option value = "u" >Fist pointing upwards</option>
+                                                <option value = "d" >Fist pointing downwards</option>
+                                                <option value = "r" >Twist rightwards</option>
+                                                <option value = "l" >Twist leftwards</option>
+                                                
+                                            </select>
+                                        </td>   
+                                    </tr>
+                                    <tr>
+                                        <td>OFF</td>
+                                        <td class = "dropdown">
+                                            <select id = "sel" class= "dropdown-toggle" data-toggle="dropdown">
+                                                <option value = "u" >Fist pointing upwards</option>
+                                                <option value = "d" >Fist pointing downwards</option>
+                                                <option value = "r" >Twist rightwards</option>
+                                                <option value = "l" >Twist leftwards</option>
+                                                
+                                            </select>
+                                        </td>   
+                                    </tr>
+                                    <tr>
+                                        <td>RED</td>
+                                        <td class = "dropdown">
+                                            <select id = "sel" class= "dropdown-toggle" data-toggle="dropdown">
+                                                <option value = "u" >Fist pointing upwards</option>
+                                                <option value = "d" >Fist pointing downwards</option>
+                                                <option value = "r" >Twist rightwards</option>
+                                                <option value = "l" >Twist leftwards</option>
+                                                
+                                            </select>
+                                        </td>   
+                                    </tr>
+                                    <tr>
+                                        <td>BLUE</td>
+                                        <td class = "dropdown">
+                                            <select id = "sel" class= "dropdown-toggle" data-toggle="dropdown">
+                                                <option value = "u" >Fist pointing upwards</option>
+                                                <option value = "d" >Fist pointing downwards</option>
+                                                <option value = "r" >Twist rightwards</option>
+                                                <option value = "l" >Twist leftwards</option>
+                                            </select>
+                                        </td>   
+                                        
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div> -->
+                <!--/.row -->
             </div>
             <!-- /.container-fluid -->
-
         </div>
         <!-- /#page-wrapper -->
-
     </div>
     <!-- /#wrapper -->
-
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
+    <script src="js/gestures.js"></script>
     <script src="js/bootstrap.min.js"></script>
 
 </body>
