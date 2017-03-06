@@ -1,0 +1,13 @@
+<body>
+    <h1>test static server</h1>
+    <script src="http://cdn.bootcss.com/socket.io/1.7.2/socket.io.min.js"></script>
+    <script type="text/javascript">
+    var socket = io.connect("/");
+    socket.on("refresh", function() {
+        location.reload();
+    });
+    socket.on("success", function() {
+        console.log("success");
+    });
+    </script>
+</body>
