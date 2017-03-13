@@ -1,6 +1,6 @@
 #include <CurieIMU.h>
 #include <CurieBLE.h>
-
+//Set up all the UUIDs
 #define IMU_SERVICE_UUID "0bdb190a-abad-11e6-80f5-76304dec7eb7"
 #define LIGHT_ID_UUID "0bdb1c0c-abad-11e6-80f5-76304dec7eb7"
 #define IMU_READINGS_UUID "0bdb1d92-abad-11e6-80f5-76304dec7eb7"
@@ -19,13 +19,16 @@ int intNumVal = 0;
 int dataVal = '\0';
 
 int photoDiodeReading = A0;
+const int buttonPin = 2;
+int buttonState = 0;
+int lastButtonState = 0;
+int buttonPushCounter = 0;
 
 
 void setup() {
-  Serial.println("Setup Starting");
   Serial.begin(9600); // initialize Serial communication
   pinMode(ledPin, OUTPUT);
-  Serial.println("Initializing IMU device...");
+  pinMode(buttonPin, INPUT);
   CurieIMU.begin();
   CurieIMU.autoCalibrateGyroOffset();
   CurieIMU.autoCalibrateAccelerometerOffset(X_AXIS, 0);
@@ -55,9 +58,7 @@ void updateReadings(){
   int x = CurieIMU.readAccelerometer(X_AXIS);
   int y = CurieIMU.readAccelerometer(Y_AXIS);
   int z = CurieIMU.readAccelerometer(Z_AXIS);
-//  Serial.write("X axis: %d", x);
-//  Serial.write("Y axis: %d", y);
-//  Serial.write("Z axis: %d", z);
+  
   // calculate the absolute values, to determine the largest
   int absX = abs(x);
   int absY = abs(y);
@@ -96,13 +97,14 @@ void updateReadings(){
   if (orientation != lastOrientation) {
     Serial.println(orientationString);
 
-    //created char variable to denote board positions:
-    //'u' for connector up
-    //'d' for connector down
-    //'g' for digital pin up
-    //'a' for analog pin up
-    //'b' for board up
-    //'w' for board down
+/*  created char variable to denote board positions:
+    'u' for connector up
+    'd' for connector down
+    'g' for digital pin up
+    'a' for analog pin up
+    'b' for board up
+    'w' for board down
+*/
     if(orientationString == "connector up"){
       dataVal = 'u';
     }
@@ -115,20 +117,11 @@ void updateReadings(){
     else if(orientationString == "analog pins up"){
       dataVal = 'b';    // Change color to blue, therefore 'b' 
     }
-//    else if(orientationString == "board up"){
-//      dataVal = 'g';
-//    }
-//    else if(orientationString == "board down"){
-//      dataVal = 'w';
-//    }
     
     dataChar.setValue(dataVal);
-//    Serial.print("Orientation String");
-//    Serial.println(orientationString);
     send_data();
     lastOrientation = orientation;
   }
-  // if the orientation has changed, print out a description:
  
 }
 
@@ -142,18 +135,28 @@ void send_data(){
   delay(1000);
 }
 void loop() {
-  BLECentral central = blePeripheral.central();
-  if (central) {
-    digitalWrite(ledPin, HIGH);
-      delay(2000);
+  buttonState = digitalRead(buttonPin);
+  if (buttonState != lastButtonState) {
+    if (buttonState == HIGH) {
+      buttonPushCounter++;
+    } else {
+    }
+    // Delay a little bit to avoid bouncing
+    delay(50);
+  }
+  // save the current state as the last state,
+  //for next time through the loop
+  lastButtonState = buttonState;
+  if (buttonPushCounter % 2 == 0) {
+    Serial.println("STOP");
+  } else {
+    Serial.println("START");
+    BLECentral central = blePeripheral.central();
+    if (central) {
+      digitalWrite(ledPin, HIGH);
       updateReadings();
       //send_data(); 
-
-    // when the central disconnects, print it out:
-    digitalWrite(ledPin, LOW);
-
-    delay(1000);
+      digitalWrite(ledPin, LOW);
+    }  
   }
-  
-  delay(1000);
 }
