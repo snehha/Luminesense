@@ -2,30 +2,22 @@
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-
     <title>Luminesense - Gestures</title>
-
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-
     <!-- Custom CSS -->
     <link href="css/lumin.css" rel="stylesheet">
-
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
 </head>
 
 <body>
-
     <div id="wrapper">
-
         <!-- Navigation -->
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -113,11 +105,8 @@
             </div>
             <!-- /.navbar-collapse -->
         </nav>
-
         <div id="page-wrapper">
-
             <div class="container-fluid">
-
                 <!-- Page Heading -->
                 <div class="row">
                     <div class="col-lg-12">
@@ -126,7 +115,7 @@
                         </h1>
                         <ol class="breadcrumb">
                             <li>
-                                <i class="fa fa-dashboard"></i>  <a href="index.html">Dashboard</a>
+                                <i class="fa fa-dashboard"></i> <a href="index.html">Dashboard</a>
                             </li>
                             <li class="active">
                                 <i class="fa fa-table"></i> Gestures
@@ -135,13 +124,49 @@
                     </div>
                 </div>
                 <!-- /.row -->
-
                 <div class="row">
-                    <div class="col-lg-8 button-options" >
-                        <button type="button" class= "button-padding"> ON </button>
-                        <button type="button" class= "button-padding"> OFF </button>
-                        <button type="button" class= "button-padding"> RED </button>
-                        <button type="button" class= "button-padding"> BLUE </button>
+                    <div class="col-lg-4 button-options">
+                        <div class="onoffswitch">
+                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
+                            <label class="onoffswitch-label" for="myonoffswitch">
+                                <span class="onoffswitch-inner"></span>
+                                <span class="onoffswitch-switch"></span>
+                            </label>
+                        </div>
+                        <!-- <button type="button" class= "button-padding"> RED </button>
+                        <button type="button" class= "button-padding"> BLUE </button> -->
+                    </div>
+                    <div class="col-lg-6 button-options" id="color-picker">
+                        <!--  <canvas id="c"></canvas>
+                        <script>
+                            var b = document.getElementById('color-picker');
+                            var c = document.getElementById('c');
+                            // var a = c.getContext('2d');
+
+                            document.body.clientWidth; // fix bug in webkit: http://qfox.nl/weblog/218
+                        </script> -->
+                        <img id="Image-Maps-Com-image-maps-2017-02-22-231909" src="color_wheel.jpg" border="0" width="300" height="300" orgWidth="300" orgHeight="300" usemap="#mymap" alt="" />
+                        <map name="mymap" id="ImageMapsCom-image-maps-2017-02-22-231909">
+                            <area alt="" title="3" shape="rect" coords="246,122,299,177" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (124,124,0)";' />
+                            <area alt="" title="4" shape="rect" coords="232,185,283,240" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (50,0,50)";' />
+                            <area alt="" title="5" shape="rect" coords="184,231,233,283" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (90,90,45)";' />
+                            <area alt="" title="2" shape="rect" coords="235,61,283,116" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (0,0,255)";' />
+                            <area alt="" title="1" shape="rect" coords="184,15,235,70" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (90,125,0)";' />
+                            <area alt="" title="12" shape="rect" coords="122,0,178,55" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (120,0,255)";' />
+                            <area alt="" title="11" shape="rect" coords="67,13,117,71" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (50,0,90)";' />
+                            <area alt="" title="10" shape="rect" coords="16,61,67,116" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (0,80,70)";' />
+                            <area alt="" title="9" shape="rect" coords="1,122,56,177" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (25,0,255)";' />
+                            <area alt="" title="8" shape="rect" coords="7,185,62,240" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (0,0,0)";' />
+                            <area alt="" title="7" shape="rect" coords="63,228,117,284" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (0,140,140)";' />
+                            <area alt="" title="6" shape="rect" coords="123,241,179,299" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (0,90,0)";' />
+                            <area shape="rect" coords="298,298,300,300" alt="Image Map" style="outline:none;" title="Image Map" />
+                        </map>
+                        <br>
+                        <br>
+                        <input readonly id="rgbvalue" style=" resize: none; background: none; border: none;" value=""/>
+                        <script src='1k-min.js'></script>
+                        <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+                        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
                     </div>
                 </div>
                 <!-- /.row -->
@@ -160,30 +185,27 @@
                                 <tbody>
                                     <tr>
                                         <td>ON</td>
-                                        <td class = "dropdown">
-                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Fist pointing upwards</a>
-                                        </td>   
+                                        <td class="dropdown">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Fist pointing upwards</a>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>OFF</td>
-                                        <td class = "dropdown">
-                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Fist pointing downwards
+                                        <td class="dropdown">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Fist pointing downwards
                                         </td>   
                                     </tr>
                                     <tr>
                                         <td>RED</td>
                                         <td class = "dropdown">
                                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Twist Rightwards </b></a>
-                                           
-                                        </td>   
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>BLUE</td>
-                                        <td class = "dropdown">
-                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Twist Leftwards</a>
-                                            
-                                        </td>   
-                                        
+                                        <td class="dropdown">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Twist Leftwards</a>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -191,76 +213,6 @@
                     </div>
                 </div>
                 <!-- /.row -->
-
-                <!--Different kind of table_____ROW_____-->
-                <!-- <div class="row">
-                    <div class="col-lg-6">
-                        <h2>Gestures</h2>
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-hover table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Action</th>
-
-                                        <th>Gesture Action
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>ON</td>
-                                        <td class = "dropdown">
-                                            <select id = "sel" class= "dropdown-toggle" data-toggle="dropdown">
-                                                <option value = "u" >Fist pointing upwards</option>
-                                                <option value = "d" >Fist pointing downwards</option>
-                                                <option value = "r" >Twist rightwards</option>
-                                                <option value = "l" >Twist leftwards</option>
-                                                
-                                            </select>
-                                        </td>   
-                                    </tr>
-                                    <tr>
-                                        <td>OFF</td>
-                                        <td class = "dropdown">
-                                            <select id = "sel" class= "dropdown-toggle" data-toggle="dropdown">
-                                                <option value = "u" >Fist pointing upwards</option>
-                                                <option value = "d" >Fist pointing downwards</option>
-                                                <option value = "r" >Twist rightwards</option>
-                                                <option value = "l" >Twist leftwards</option>
-                                                
-                                            </select>
-                                        </td>   
-                                    </tr>
-                                    <tr>
-                                        <td>RED</td>
-                                        <td class = "dropdown">
-                                            <select id = "sel" class= "dropdown-toggle" data-toggle="dropdown">
-                                                <option value = "u" >Fist pointing upwards</option>
-                                                <option value = "d" >Fist pointing downwards</option>
-                                                <option value = "r" >Twist rightwards</option>
-                                                <option value = "l" >Twist leftwards</option>
-                                                
-                                            </select>
-                                        </td>   
-                                    </tr>
-                                    <tr>
-                                        <td>BLUE</td>
-                                        <td class = "dropdown">
-                                            <select id = "sel" class= "dropdown-toggle" data-toggle="dropdown">
-                                                <option value = "u" >Fist pointing upwards</option>
-                                                <option value = "d" >Fist pointing downwards</option>
-                                                <option value = "r" >Twist rightwards</option>
-                                                <option value = "l" >Twist leftwards</option>
-                                            </select>
-                                        </td>   
-                                        
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div> -->
-                <!--/.row -->
             </div>
             <!-- /.container-fluid -->
         </div>
@@ -269,11 +221,10 @@
     <!-- /#wrapper -->
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
-
+    <!--  <script src='1k.js'></script> -->
     <!-- Bootstrap Core JavaScript -->
     <script src="js/gestures.js"></script>
     <script src="js/bootstrap.min.js"></script>
-
 </body>
 
 </html>
