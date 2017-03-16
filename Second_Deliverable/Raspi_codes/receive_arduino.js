@@ -1,15 +1,21 @@
+// Downloading all the dependencies 
+
 var noble = require('noble');
 var Particle = require('particle-api-js');
 var particle = new Particle();  //Particle part 
-var on_off;
-// MODIFY THIS WITH THE APPROPRIATE URL
-var socket = require('socket.io-client')('WEB-SERVER-DOMAIN-HERE:8080');
-var peripheralIdOrAddress = process.argv[2].toLowerCase();
-// These should correspond to the peripheral's service and characteristic UUIDs
-var IMU_SERVICE_UUID = "0bdb190aabad11e680f576304dec7eb7";
+var http = require('http');
+var express = require('express');
+var app = express();
 
+var on_off;
+// Double check: luminesense-test.herokuapp.com --> ('WEB-SERVER-DOMAIN-HERE:8080');
+var socket = require('socket.io-client')('luminesense-test.herokuapp.com:8080');
+var peripheralIdOrAddress = process.argv[2].toLowerCase();
+// The peripheral's service and characteristic UUIDs
+var IMU_SERVICE_UUID = "0bdb190aabad11e680f576304dec7eb7";
 var LIGHT_ID_UUID = "0bdb1c0cabad11e680f576304dec7eb7";
 var IMU_READINGS_UUID = "0bdb1d92abad11e680f576304dec7eb7"
+// Server-side code
 socket.on('connect', function() {
   console.log('Connected to server');
   socket.emit('hello');
