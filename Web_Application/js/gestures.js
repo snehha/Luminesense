@@ -1,9 +1,9 @@
-var val = "Fist pointing downwards";
-var sel = document.getElementById('sel');
-var opts = sel.options;
-for(var opt, j = 0; opt = opts[j]; j++) {
-    if(opt.value == val) {
-        sel.selectedIndex = j;
-        break;
-    }
-}
+var socket = io.connect('http://192.168.1.117');
+socket.on('pong', function (data) {
+    console.log("pong");
+});
+$(document).ready(function() {
+    $("# hello").click(function(){
+        socket.emit('ping', { duration: 2 });
+    }); 
+});
