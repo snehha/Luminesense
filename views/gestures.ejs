@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Luminesense - Gestures</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/lumin.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <script src="js/jquery.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js"></script>
+    <!-- <script src="/js/socket.io.js"></script> -->
+    <script src="js/gestures.js"></script>
+</head>
+
+<body>
+    <div id="wrapper">
+        <!-- Navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">Luminesense</a>
+            </div>`
+            <!-- Top Menu Items -->
+            <ul class="nav navbar-right top-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Thomas Little <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav side-nav">
+                    <li>
+                        <a href="index.html"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="charts.html"><i class="fa fa-fw fa-bar-chart-o"></i> Energy Useage</a>
+                    </li>
+                    <li class="active">
+                        <a href="gestures.html"><i class="fa fa-fw fa-table"></i> Gestures</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </nav>
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <!-- Page Heading -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            Gestures
+                        </h1>
+                        <ol class="breadcrumb">
+                            <li>
+                                <i class="fa fa-dashboard"></i> <a href="index.html">Dashboard</a>
+                            </li>
+                            <li class="active">
+                                <i class="fa fa-table"></i> Gestures
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- /.row -->
+                <div class="row">
+                    <div class="col-lg-4 button-options">
+                        <div class="test">
+                            <button id="hello" type="button">
+                                Click Me!
+                            </button>
+                        </div>
+                        <div class="onoffswitch">
+                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
+                            <label class="onoffswitch-label" for="myonoffswitch">
+                                <span class="onoffswitch-inner"></span>
+                                <span class="onoffswitch-switch"></span>
+                            </label>
+                        </div>
+                        <!-- <button type="button" class= "button-padding"> RED </button>
+                        <button type="button" class= "button-padding"> BLUE </button> -->
+                    </div>
+                    <div class="col-lg-6 button-options" id="color-picker">
+                        <!--  <canvas id="c"></canvas>
+                        <script>
+                            var b = document.getElementById('color-picker');
+                            var c = document.getElementById('c');
+                            // var a = c.getContext('2d');
+
+                            document.body.clientWidth; // fix bug in webkit: http://qfox.nl/weblog/218
+                        </script> -->
+                        <img id="Image-Maps-Com-image-maps-2017-02-22-231909" src="img/color_wheel.jpg" border="0" width="300" height="300" orgWidth="300" orgHeight="300" usemap="#mymap" alt="" />
+                        <map name="mymap" id="ImageMapsCom-image-maps-2017-02-22-231909">
+                            <area alt="" title="3" shape="rect" coords="246,122,299,177" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (124,124,0)";' />
+                            <area alt="" title="4" shape="rect" coords="232,185,283,240" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (50,0,50)";' />
+                            <area alt="" title="5" shape="rect" coords="184,231,233,283" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (90,90,45)";' />
+                            <area alt="" title="2" shape="rect" coords="235,61,283,116" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (0,0,255)";' />
+                            <area alt="" title="1" shape="rect" coords="184,15,235,70" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (90,125,0)";' />
+                            <area alt="" title="12" shape="rect" coords="122,0,178,55" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (120,0,255)";' />
+                            <area alt="" title="11" shape="rect" coords="67,13,117,71" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (50,0,90)";' />
+                            <area alt="" title="10" shape="rect" coords="16,61,67,116" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (0,80,70)";' />
+                            <area alt="" title="9" shape="rect" coords="1,122,56,177" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (25,0,255)";' />
+                            <area alt="" title="8" shape="rect" coords="7,185,62,240" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (0,0,0)";' />
+                            <area alt="" title="7" shape="rect" coords="63,228,117,284" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (0,140,140)";' />
+                            <area alt="" title="6" shape="rect" coords="123,241,179,299" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (0,90,0)";' />
+                            <area shape="rect" coords="298,298,300,300" alt="Image Map" style="outline:none;" title="Image Map" />
+                        </map>
+                        <br>
+                        <br>
+                        <input readonly id="rgbvalue" style=" resize: none; background: none; border: none;" value=""/>
+                        <script src='js/1k-min.js'></script>
+                        <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+                        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+                    </div>
+                </div>
+                <!-- /.row -->
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h2>Gestures Table</h2>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Action</th>
+                                        <th>Gesture Action
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>ON</td>
+                                        <td class="dropdown">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Fist pointing upwards</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>OFF</td>
+                                        <td class="dropdown">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Fist pointing downwards
+                                        </td>   
+                                    </tr>
+                                    <tr>
+                                        <td>RED</td>
+                                        <td class = "dropdown">
+                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Twist Rightwards </b></a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>BLUE</td>
+                                        <td class="dropdown">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Twist Leftwards</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.container-fluid -->
+        </div>
+        <!-- /#page-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+    <!--  <script src='1k.js'></script> -->
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/gestures.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</body>
+
+</html>
