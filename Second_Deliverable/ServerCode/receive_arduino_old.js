@@ -1,21 +1,18 @@
-// Downloading all the dependencies 
-
 var noble = require('noble');
 var Particle = require('particle-api-js');
+var pg = require('pg');
+var WATTAGE = 12;
 var particle = new Particle();  //Particle part 
-var http = require('http');
-var express = require('express');
-var app = express();
-
 var on_off;
-// Double check: luminesense-test.herokuapp.com --> ('WEB-SERVER-DOMAIN-HERE:8080');
-var socket = require('socket.io-client')('luminesense-test.herokuapp.com:8080');
+var numOn = 0;
+// MODIFY THIS WITH THE APPROPRIATE URL
+var socket = require('socket.io-client')('WEB-SERVER-DOMAIN-HERE:8080');
 var peripheralIdOrAddress = process.argv[2].toLowerCase();
-// The peripheral's service and characteristic UUIDs
+// These should correspond to the peripheral's service and characteristic UUIDs
 var IMU_SERVICE_UUID = "0bdb190aabad11e680f576304dec7eb7";
+
 var LIGHT_ID_UUID = "0bdb1c0cabad11e680f576304dec7eb7";
 var IMU_READINGS_UUID = "0bdb1d92abad11e680f576304dec7eb7"
-// Server-side code
 socket.on('connect', function() {
   console.log('Connected to server');
   socket.emit('hello');
@@ -37,22 +34,22 @@ noble.on('stateChange', function(state) {
 noble.on('discover', function(peripheral) {
   if (peripheral.id === peripheralIdOrAddress || peripheral.address === peripheralIdOrAddress) {
     noble.stopScanning();
-    console.log('peripheral with ID ' + peripheral.id + ' found');
+    //console.log('peripheral with ID ' + peripheral.id + ' found');
 
     peripheral.once('disconnect', function() {
-      console.log('disconnected');
+      //console.log('disconnected');
       process.exit(0);
     });
 
     peripheral.connect(function(error) {
-      console.log('connected');
+      //console.log('connected');
       peripheral.discoverServices([], onServicesDiscovered);
     });
   }
 });
 
 function onServicesDiscovered(error, services) {
-  console.log('services discovered');
+  //console.log('services discovered');
 
   services.forEach(function(service) {
     console.log(service.uuid);
@@ -86,6 +83,7 @@ function onCharacteristicDiscovered(error, characteristics) {
 
 function onIMUCharacteristicsRead(data, isNotification) {
   console.log('imuCharacteristic read response value: ', data.readInt8(0));
+  console.log('IMU data received');
   on_off = data.readInt8(0);
   functionPost();
 }
@@ -96,10 +94,10 @@ function onLightCharacteristicRead(data, isNotification) {
   if (isNotification) {
     console.log('idCharacteristic notification value: ', data.readInt8(0));
     var light_id = data.readInt8(0);
-    // functionPost();
+    functionPost();
   } else {
     console.log('idCharacteristic read response value: ', data.readInt8(0));
-    //var light_id = data.readInt8(0);
+    var light_id = data.readInt8(0);
   }
 }
 
@@ -121,6 +119,9 @@ function functionPost() {
       argument: '1,u', 
       auth: token
     });
+    console.log("on");
+    numOn = numOn + 1;
+    databasePost();
   }
   else if(on_off == 100){
     var fnPr = particle.callFunction({ 
@@ -129,6 +130,9 @@ function functionPost() {
       argument: '1,d', 
       auth: token
     });
+    console.log("off");
+    numOn = numOn - 1;
+    databasePost();
   } 
   else if(on_off == 98){ // 'r'
     var fnPr = particle.callFunction({ 
@@ -137,6 +141,7 @@ function functionPost() {
       argument: '1,b', 
       auth: token
     });
+    console.log("red");
   }
   else if(on_off == 114){ //'b'
     var fnPr = particle.callFunction({ 
@@ -145,6 +150,7 @@ function functionPost() {
       argument: '1,r', 
       auth: token
     });
+    console.log("blue");
   }
   fnPr.then(
   function(data) {
@@ -152,6 +158,15 @@ function functionPost() {
   }, function(err) {
     console.log('An error occurred:', err);
   });
+}
+
+function databasePost(){
+  pg.defaults.ssl = true;
+    var connection = "postgres://jryhvlrzsvchoc:0fece6e968bfa67a69e4ed643f60fb9aeb8d7d29d1eada2a493ce5faeef8787b@ec2-23-21-111-81.compute-1.amazonaws.com:5432:/d9obmj9ncrr8al"
+    pg.connect(process.env.DATABASE_URL, function(err, client){
+      if (err) throw err;
+      console.log('Connected to postgres! Getting schemas...');
+    });
 }
 
 
@@ -169,7 +184,6 @@ function getSocketLabel(uuid) {
      label = 'ay:raspi';
   }
   // }
-
   return label;
 }
 
