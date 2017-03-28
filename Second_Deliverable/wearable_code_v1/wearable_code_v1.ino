@@ -135,28 +135,28 @@ void send_data(){
   delay(1000);
 }
 void loop() {
-  buttonState = digitalRead(buttonPin);
-  if (buttonState != lastButtonState) {
-    if (buttonState == HIGH) {
-      buttonPushCounter++;
-    } else {
-    }
-    // Delay a little bit to avoid bouncing
-    delay(50);
-  }
+//  buttonState = digitalRead(buttonPin);
+//  if (buttonState != lastButtonState) {
+//    if (buttonState == HIGH) {
+//      buttonPushCounter++;
+//    } else {
+//    }
+//    // Delay a little bit to avoid bouncing
+//    delay(50);
+//  }
   // save the current state as the last state,
   //for next time through the loop
-  lastButtonState = buttonState;
-  if (buttonPushCounter % 2 == 0) {
-    Serial.println("STOP");
-  } else {
-    Serial.println("START");
+  //lastButtonState = buttonState;
+//  if (buttonPushCounter % 2 == 0) {
+//    Serial.println("STOP");
+//  } else {
+//    Serial.println("START");
     BLECentral central = blePeripheral.central();
     if (central) {
       digitalWrite(ledPin, HIGH);
       updateReadings();
       //send_data(); 
       digitalWrite(ledPin, LOW);
-    }  
+    //}  
   }
 }
