@@ -14,6 +14,7 @@ var IMU_SERVICE_UUID = "0bdb190aabad11e680f576304dec7eb7";
 var LIGHT_ID_UUID = "0bdb1c0cabad11e680f576304dec7eb7";
 var IMU_READINGS_UUID = "0bdb1d92abad11e680f576304dec7eb7";
 var SESSION_ID_UUID = "19b10001e8f2537e4f6cd104768a1214";
+var SELECTION_ID_UUID = "89afbbdce26a4880b1ea055cf7aa644d";
 
 var client = new pg.Client({
 	user: "jryhvlrzsvchoc",
@@ -79,7 +80,6 @@ function onServicesDiscovered(error, services) {
   });
 }
 
-
 function onCharacteristicDiscovered(error, characteristics) 
 {
   console.log('characteristics discovered');
@@ -110,6 +110,14 @@ function onCharacteristicDiscovered(error, characteristics)
         console.log('sessionidCharacteristic notification on');
         });
       }
+    else if (characteristic.uuid == SELECTION_ID_UUID) 
+    {
+      characteristic.on('read', onSelectionCharacteristicRead);
+      characteristic.notify(true, function(error) 
+      {
+        console.log('selectionidCharacteristic notification on');
+        });
+      }
     });
  }
 
@@ -133,10 +141,21 @@ function onLightCharacteristicRead(data, isNotification) {
 function onSessionCharacteristicRead(data, isNotification) {
   if (isNotification) {
     console.log('sessionidCharacteristic notification value: ', data.readInt8(0));
-    var light_id = data.readInt8(0);
+    //var light_id = data.readInt8(0);
     // functionPost();
   } else {
     console.log('sessionidCharacteristic read response value: ', data.readInt8(0));
+    //var light_id = data.readInt8(0);
+  }
+}
+
+function onSelectionCharacteristicRead(data, isNotification) {
+  if (isNotification) {
+    console.log('onSelectionCharacteristic notification value: ', data.readInt8(0));
+    //var light_id = data.readInt8(0);
+    // functionPost();
+  } else {
+    console.log('onSelectionCharacteristic read response value: ', data.readInt8(0));
     //var light_id = data.readInt8(0);
   }
 }
