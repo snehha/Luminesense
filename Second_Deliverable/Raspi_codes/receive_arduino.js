@@ -7,7 +7,7 @@ var on_off;
 var WATTAGE = 12;
 var numOn = 0;
 // MODIFY THIS WITH THE APPROPRIATE URL
-var socket = require('socket.io-client')('WEB-SERVER-DOMAIN-HERE:8080');
+var socket = require('socket.io-client')('128.197.180.199:8080');
 var peripheralIdOrAddress = process.argv[2].toLowerCase();
 // These should correspond to the peripheral's service and characteristic UUIDs
 var IMU_SERVICE_UUID = "0bdb190aabad11e680f576304dec7eb7";
