@@ -64,12 +64,12 @@ function onCharacteristicDiscovered(error, characteristics) {
 
   characteristics.forEach(function(characteristic) {
     if (characteristic.uuid == IMU_READINGS_UUID) {
-      characteristic.on('read', onIMUCharacteristicsRead);
+      characteristic.on('data', onIMUCharacteristicsRead);
       characteristic.notify(true, function(error) {
         console.log('imuCharacteristic notification on');
       });
     } else if (characteristic.uuid == LIGHT_ID_UUID) {
-      characteristic.on('read', onLightCharacteristicRead);
+      characteristic.on('data', onLightCharacteristicRead);
 
       characteristic.notify(true, function(error) {
         console.log('idCharacteristic notification on');
