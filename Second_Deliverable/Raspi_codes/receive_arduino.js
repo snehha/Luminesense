@@ -151,11 +151,11 @@ function onSessionCharacteristicRead(data, isNotification) {
 
 function onSelectionCharacteristicRead(data, isNotification) {
   if (isNotification) {
-    console.log('onSelectionCharacteristic notification value: ', data.readInt32(0));
+    console.log('onSelectionCharacteristic notification value: ', data.readInt8(0));
     //var light_id = data.readInt8(0);
     // functionPost();
   } else {
-    console.log('onSelectionCharacteristic read response value: ', data.readInt32(0));
+    console.log('onSelectionCharacteristic read response value: ', data.readInt8(0));
     //var light_id = data.readInt8(0);
   }
 }
