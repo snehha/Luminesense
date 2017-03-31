@@ -151,15 +151,20 @@
                                 <tbody>
                                     <tr>
                                         <td>ON</td>
-                                        <td class="dropdown">
-                                                            <div class="btn-group">
-                        <button class="btn btn-primary dropdown-toggle" href="#" data-toggle="dropdown">
-                        <ul class="dropdown-menu stay-open pull-right" role="menu">
-                        <li>First menu item</li>    
-                        <li>Second menu item</li>   
-                        </ul>
-                </div>
-                                        </td>
+                                       <div class="btn-group">
+                    <button type="button" class="btn btn-default"><i class="fa fa-check-circle fa-lg text-success"></i> Test</button>
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                      <span class="caret"></span>
+                      <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                      <li><a href="#">Test &amp; Deploy</a></li>
+                      <li><a href="#">Deploy</a></li>
+                      <li><a href="#">Build</a></li>
+                      <li class="divider"></li>
+                      <li><a href="#">Disable</a></li>
+                    </ul>
+                  </div>
                                     </tr>
                                     <tr>
                                         <td>OFF</td>
