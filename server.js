@@ -60,7 +60,7 @@ app.get('/gestures.html', function(req, res){
 
 app.post('/gestures.html', function(req, res){
 	console.log(req.body);
-	res.render('gestres');
+	res.render('gestures');
 })
 
 //set blank page route
