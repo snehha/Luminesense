@@ -59,7 +59,7 @@ app.get('/gestures.html', function(req, res){
 		console.log(req.param);
 });
 
-app.post('/gestures', function(req, res){
+app.post('/gestures.html', function(req, res){
 	console.log(req.body);
 })
 
