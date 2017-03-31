@@ -72,6 +72,9 @@ app.post('/gestures.html', function(req, res){
 	var query = client.query('SELECT gesture,command FROM gestures', [], function(err,result){
 		if (err) throw err;
 		console.log(result.rows[0]);
+		console.log(result.rows[1]);
+		console.log(result.rows[2]);
+		console.log(result.rows[3]);
 	});
 })
 
