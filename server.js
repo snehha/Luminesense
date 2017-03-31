@@ -23,6 +23,7 @@ app.set('view engine', 'ejs');
 
 // make express look in the public directory for assets (css/js/img)
 app.use(express.static(__dirname + '/public'));
+app.use(express.bodyParser());
 
 var query = client.query('SELECT kw, day FROM dailystats', [], function(err,result){
 	if (err) throw err;
@@ -56,6 +57,7 @@ app.get('/charts.html', function(req, res){
 //set the gestures route
 app.get('/gestures.html', function(req, res){
 		res.render('gestures');
+		console.log(req.param);
 });
 
 //set blank page route
