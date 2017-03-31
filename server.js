@@ -62,7 +62,7 @@ app.get('/gestures.html', function(req, res){
 
 app.post('/gestures.html', function(req, res){
 	console.log("post request");
-	console.log(req.body);
+	console.log(req.body.on);
 	res.render('gestures');
 	//hi
 })
