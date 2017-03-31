@@ -59,6 +59,10 @@ app.get('/gestures.html', function(req, res){
 		console.log(req.param);
 });
 
+app.post('/gestures', function(req, res){
+	console.log(req.body);
+})
+
 //set blank page route
 app.get('/blank-page.html', function(req, res){
 		res.render('blank-page')
