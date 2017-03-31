@@ -56,11 +56,11 @@ app.get('/charts.html', function(req, res){
 //set the gestures route
 app.get('/gestures.html', function(req, res){
 		res.render('gestures');
-		console.log(req.param);
 });
 
 app.post('/gestures.html', function(req, res){
 	console.log(req.body);
+	res.send(req.body);
 })
 
 //set blank page route
