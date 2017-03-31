@@ -64,7 +64,11 @@ app.post('/gestures.html', function(req, res){
 	console.log("post request");
 	console.log(req.body.on);
 	res.render('gestures');
-	//hi
+	client.query('DELETE FROM gestures');
+	client.query('INSERT INTO gestures (gesture, command) VALUES ($1, $2);', ["on", req.body.on]);
+	client.query('INSERT INTO gestures (gesture, command) VALUES ($1, $2);', ["off", req.body.off]);
+	client.query('INSERT INTO gestures (gesture, command) VALUES ($1, $2);', ["red", req.body.red]);
+	client.query('INSERT INTO gestures (gesture, command) VALUES ($1, $2);', ["blue", req.body.blue]);
 })
 
 //set blank page route
