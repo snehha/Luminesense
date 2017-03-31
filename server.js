@@ -2,6 +2,7 @@ var express = require('express');
 var pg = require('pg');
 var app = express();
 var fs = require("fs");
+var bodyParser = require('body-parser');
 var WATTAGE = 12;
 
 var client = new pg.Client({
