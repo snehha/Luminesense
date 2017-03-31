@@ -23,6 +23,7 @@ app.set('view engine', 'ejs');
 
 // make express look in the public directory for assets (css/js/img)
 app.use(express.static(__dirname + '/public'));
+app.use(bodyParser());
 
 var query = client.query('SELECT kw, day FROM dailystats', [], function(err,result){
 	if (err) throw err;
@@ -59,6 +60,7 @@ app.get('/gestures.html', function(req, res){
 });
 
 app.post('/gestures.html', function(req, res){
+	console.log("post request");
 	console.log(req.body);
 	res.render('gestures');
 })
