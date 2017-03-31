@@ -24,7 +24,7 @@ app.set('view engine', 'ejs');
 
 // make express look in the public directory for assets (css/js/img)
 app.use(express.static(__dirname + '/public'));
-app.use(express.bodyParser());
+app.use(bodyParser.urlencoded());
 
 var query = client.query('SELECT kw, day FROM dailystats', [], function(err,result){
 	if (err) throw err;
