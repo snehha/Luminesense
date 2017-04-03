@@ -21,7 +21,8 @@ var end_selection;
 var active_imu = 0;
 // MODIFY THIS WITH THE APPROPRIATE URL
 var socket = require('socket.io-client')('128.197.180.199:8080');
-var peripheralIdOrAddress = process.argv[2].toLowerCase();
+var peripheralIdOrAddress = process.argv[2];
+peripheralIdOrAddress = peripheralIdOrAddress.toLowerCase();
 // Peripheral's service and characteristic UUIDs
 var IMU_SERVICE_UUID = "0bdb190aabad11e680f576304dec7eb7";
 var LIGHT_ID_UUID = "0bdb1c0cabad11e680f576304dec7eb7";
@@ -49,6 +50,66 @@ client.connect();
 
 //calls checkDatabase every hour
 setInterval(checkDatabase, 1000 * 60 * 60);
+
+//calls checkRoom every second
+setInterval(checkRoom, 1000);
+
+var token = '72409242cf2554bebb494f5e0a94775456005de7';
+
+function checkRoom(){
+	var query = client.query('SELECT detected FROM adaptive', [], function(err, result){
+		if (err) throw err;
+		//nobody in room, someone detected
+		if (occupancy == 0 && result.rows[0].detected == 1){
+			occupancy = 1;
+			//client.query('DELETE FROM adaptive');
+			//client.query('INSERT INTO adaptive (detected) VALUES ($1);', [
+			for (var i = 0; i < LUMINAIRE_IDS.length; i++) {
+				var device_id = LUMINAIRE_IDS[i];
+				var fnPr = particle.callFunction({ 
+				deviceId: device_id,
+				name: 'toggleLights', 
+				argument: 'u', 
+				auth: token
+				});
+				numOn = LUMINAIRE_IDS.length;
+				databasePost();
+			}
+		}
+		//someone was in room, now has left
+		else if (occupancy == 1 && result.rows[0].detected == 0){
+		//else if (occupancy == 1){
+			occupancy = 0;
+			for (var i = 0; i < LUMINAIRE_IDS.length; i++) {
+				var device_id = LUMINAIRE_IDS[i];
+				var fnPr = particle.callFunction({ 
+				deviceId: device_id,
+				name: 'toggleLights', 
+				argument: 'd', 
+				auth: token
+				});
+				numOn = LUMINAIRE_IDS.length;
+				databasePost();
+			}
+		}
+		else{
+			var fnPR = null;
+		}
+		if (fnPr != null){
+			fnPr.then(
+				function(data) {
+				//console.log('Function called succesfully:', data);
+				console.log('Function called succesfully');
+				}, function(err) {
+				console.log('An error occurred:', err);
+					}
+			);
+		}
+	});
+	
+
+    active_imu = 0;
+}
 
 function databasePost(){
     client.query('INSERT INTO time (timing, lightson) VALUES ($1, $2);', [new Date(), numOn]);
@@ -166,7 +227,8 @@ function gestureSwitch(name){
 
 function onIMUCharacteristicsRead(data, isNotification) {
   console.log('imuCharacteristic read response value: ', data.readInt8(0));
-  if (gesture == 117){
+    on_off = data.readInt8(0);
+	if (on_off == 117){
     var query = client.query('SELECT gesture FROM gestures WHERE command=\'up\'', [], function(err,result){
       if (err) throw err;
       gesture = gestureSwitch(result.rows[0].gesture);
@@ -175,7 +237,7 @@ function onIMUCharacteristicsRead(data, isNotification) {
       console.log(gesture);
     });
   }
-  else if (gesture == 100){
+  else if (on_off == 100){
     var query = client.query('SELECT gesture FROM gestures WHERE command=\'down\'', [], function(err,result){
       if (err) throw err;
       gesture = gestureSwitch(result.rows[0].gesture);
@@ -184,7 +246,7 @@ function onIMUCharacteristicsRead(data, isNotification) {
       console.log(gesture);
     });
   }
-  else if (gesture == 98){
+  else if (on_off == 98){
     var query = client.query('SELECT gesture FROM gestures WHERE command=\'left\'', [], function(err,result){
       if (err) throw err;
       gesture = gestureSwitch(result.rows[0].gesture);
@@ -193,7 +255,7 @@ function onIMUCharacteristicsRead(data, isNotification) {
       console.log(gesture);
     });
   }
-  else if (gesture == 114){
+  else if (on_off == 114){
     var query = client.query('SELECT gesture FROM gestures WHERE command=\'right\'', [], function(err,result){
       if (err) throw err;
       gesture = gestureSwitch(result.rows[0].gesture);
@@ -262,8 +324,6 @@ particle.login({username: 'mcl.testbed@gmail.com', password: 'littlesarmy'}).the
   }
 );
 
-var token = '72409242cf2554bebb494f5e0a94775456005de7';
-
 // Function controls the status of the session (for user/system interactions)
 function session_update() {
 	// Loop through all device ID's
@@ -293,15 +353,22 @@ function session_update() {
       argument: '1',
       auth: token
     });
-  } 		
-  fnPr.then(
-  function(data) {
-    //console.log('Function called succesfully:', data);
-    console.log('Function called succesfully');
-  }, function(err) {
-    console.log('An error occurred:', err);
-  });
-}
+  }
+  	else{
+		var fnPR = null;
+	} 		
+
+	if (fnPr != null){
+		fnPr.then(
+			function(data) {
+			//console.log('Function called succesfully:', data);
+			console.log('Function called succesfully');
+				}, function(err) {
+				console.log('An error occurred:', err);
+					}
+			);
+		}
+	}
 }
 
 // Function determines the Device ID of the luminaire being observed
@@ -424,23 +491,21 @@ function gesture_update() {
       auth: token
     });
   }
-	else
-	{
-	    var fnPr = particle.callFunction({
-		deviceId: device_id,
-		name: 'toggleLights',
-		agument: '0',
-		auth: token
-	    });
-	}
-  fnPr.then(
-  function(data) {
-    //console.log('Function called succesfully:', data);
-    console.log('Function called succesfully');
-  }, function(err) {
-    console.log('An error occurred:', err);
-  });
-	console.log(fnPr.value);
+  			
+	else{
+		var fnPR = null;
+		} 		
+
+	if (fnPr != null){
+		fnPr.then(
+			function(data) {
+			//console.log('Function called succesfully:', data);
+			console.log('Function called succesfully');
+				}, function(err) {
+				console.log('An error occurred:', err);
+					}
+			);
+		}
     }
     active_imu = 0;
 }

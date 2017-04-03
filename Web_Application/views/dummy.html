@@ -8,17 +8,16 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>Luminesense - Gestures</title>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/lumin.css" rel="stylesheet">
+    <link href="../public/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../public/css/lumin.css" rel="stylesheet">
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <script src="js/jquery.js"></script>
+    <script src="../public/js/jquery.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js"></script>
-    <!-- <script src="/js/socket.io.js"></script> -->
-    <script src="js/gestures.js"></script>
-    
-</script>
+    <script src="/js/socket.io.js"></script>
+    <script src="js/gesture.js"></script>
 </head>
+
 
 <body>
     <div id="wrapper">
@@ -36,6 +35,25 @@
             </div>`
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i> <b class="caret"></b></a>
+                    <ul class="dropdown-menu alert-dropdown">
+                        <li>
+                            <a href="#">Alert Name <span class="label label-default">Alert Badge</span></a>
+                        </li>
+                        <li>
+                            <a href="#">Alert Name <span class="label label-primary">Alert Badge</span></a>
+                        </li>
+                        <li>
+                            <a href="#">Alert Name <span class="label label-success">Alert Badge</span></a>
+                        </li>
+                        
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">View All</a>
+                        </li>
+                    </ul>
+                </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Thomas Little <b class="caret"></b></a>
                     <ul class="dropdown-menu">
@@ -59,10 +77,24 @@
                         <a href="index.html"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                     </li>
                     <li>
-                        <a href="charts.html"><i class="fa fa-fw fa-bar-chart-o"></i> Energy Useage</a>
+                        <a href="charts.html"><i class="fa fa-fw fa-bar-chart-o"></i> Charts</a>
                     </li>
                     <li class="active">
                         <a href="gestures.html"><i class="fa fa-fw fa-table"></i> Gestures</a>
+                    </li>
+                    <li>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Dropdown <i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="demo" class="collapse">
+                            <li>
+                                <a href="#">Dropdown Item</a>
+                            </li>
+                            <li>
+                                <a href="#">Dropdown Item</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="blank-page.html"><i class="fa fa-fw fa-file"></i> Blank Page</a>
                     </li>
                 </ul>
             </div>
@@ -87,89 +119,21 @@
                     </div>
                 </div>
                 <!-- /.row -->
-                <form action="/gestures.html" method="POST" id="gestureform">
                 <div class="row">
                     <div class="col-lg-4 button-options">
                         <div class="onoffswitch" id="on-off">
                             <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
                             <label class="onoffswitch-label" for="myonoffswitch">
-                                <span class="onoffswitch-inner" onclick = "sendValuesOn();" ></span>
+                                <span class="onoffswitch-inner"></span>
                                 <span class="onoffswitch-switch"></span>
                             </label>
-						</div>
-					</div>
-					<div class="col-lg-4">
-                        <div class="onoffswitch" id="on-off">
-                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
-                            <label class="onoffswitch-label" for="myonoffswitch">
-                                <span class="onoffswitch-inner" onclick = "sendValuesOff();" ></span>
-                                <span class="onoffswitch-switch"></span>
-                            </label>
-						</div>
-					</div>
-				 </div>
-               
+                        </div>
+                    </div>
                     <div class="col-lg-6 button-options" id="color-picker">
 
                         <img id="Image-Maps-Com-image-maps-2017-02-22-231909" src="color_wheel.jpg" border="0" width="300" height="300" orgWidth="300" orgHeight="300" usemap="#mymap" alt="" />
                         <map name="mymap" id="ImageMapsCom-image-maps-2017-02-22-231909">
-							<area alt="" id = "1" title="1" shape="rect" coords="184,15,235,70" style="outline:none;" onclick = "sendValues1();" />
-							<script type="text/javascript" src="//cdn.jsdelivr.net/particle-api-js/5/particle.min.js"></script>
-							<script type="text/javascript">
-								//var Particle = require('particle-api-js');
-								var actionArg = '';
-                                var particle = new Particle(); 
-                                var token = '72409242cf2554bebb494f5e0a94775456005de7';	
-                                particle.login({username: 'mcl.testbed@gmail.com', password: 'littlesarmy'}).then(
-  									function(data){
-    									console.log('API call completed on promise resolve: ', data.body.access_token);
-  									},
-									function(err) {
-    										console.log('API call completed on promise fail: ', err);
-  									}
-								);	
-								function functionPost(){
-									//particle.login({username: 'mcl.testbed@gmail.com', password: 'littlesarmy'}).then(
-                                                                        //function(data){
-                                                                        	//console.log('API call completed on promise resolve: ', data.body.access_token);
-                                                                        //},
-                                                                        //function(err) {
-                                                                                //console.log('API call completed on promise fail: ', err);
-                                                                        //}
-                                                                //);	
-									var fnPr = particle.callFunction({
-										deviceId: '390040001347353236343033',
-										name: 'toggleLights',
-										argument: actionArg, 
-										auth: token
-									});							
-									fnPr.then(
-										function(data){
-											console.log('Function called successfully:', data);
-										}, function(err){
-											console.log('An error occured:', err);
-									});
-								}
-								function sendValues1() {
-									document.getElementById("rgbvalue").value = "RGB: (90,125,0)";
-									console.log('calling functionPost from sendValues1()');
-									actionArg = 'b';	
-									functionPost();
-								}
-								function sendValuesOn(){
-									console.log('Turning Raspi on');
-									var onOroff = document.getElementById('on-off');
-									actionArg = 'u';
-									functionPost();	
-								}
-								function sendValuesOff(){
-									console.log('Turning Raspi off');
-									var onOroff = document.getElementById('on-off');
-									actionArg = 'd';
-									functionPost();	
-								}
-								
-						</script>
+							<area alt="" id = "1" title="1" shape="rect" coords="184,15,235,70" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (90,125,0)";' />
                             <area alt="" id = "2" title="2" shape="rect" coords="235,61,283,116" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (0,0,255)";' />
                             <area alt="" id = "3" title="3" shape="rect" coords="246,122,299,177" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (124,124,0)";' />
                             <area alt="" id = "4" title="4" shape="rect" coords="232,185,283,240" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (50,0,50)";' />
@@ -186,11 +150,21 @@
                             <area shape="rect" coords="298,298,300,300" alt="Image Map" style="outline:none;" title="Image Map" />
                         </map>
                        
+						<!-- <script>
+							var socket = io();
+							var rgbJoin;
+							socket.on('toggleLED', function(colorCircleTitle){
+								console.log("Received the circle title value for choosing the color");
+								for(title in colorCircleTitle){
+									rgbJoin = colorCircleTitle[title].join();
+								}
+							});
+						</script>
+						<-->
                         <br>
                         <br>
                         <input readonly id="rgbvalue" style=" resize: none; background: none; border: none;" value=""/>
-                        
-                        <script src='1k-min.js'></script>
+                        <script src='../public/1k-min.js'></script>
                         <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
                         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
                     </div>
@@ -211,78 +185,46 @@
                                 <tbody>
                                     <tr>
                                         <td>ON</td>
-                                        <td>
-                                       <div class="form-group">
-                   		 				<select class="form-control" id="ong" name="ong">
-                   		 				<option value = "up">Fist pointing upwards</option>
-                   		 				<option value = "down">Fist pointing downwards</option>
-                   		 				<option value = "right">Twist Rightwards</option>
-                 						 <option value = "left">Twist Leftwards</option>
-                 						 </select>
-                 						 </div>
-                 						 </td>
+                                        <td class="dropdown">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Fist pointing upwards</a>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>OFF</td>
-                                      <td>
-                                        <div class="form-group">
-                   		 				<select class="form-control" id="offg" name="offg">
-                   		 				<option value = "down">Fist pointing downwards</option>
-                   		 				<option value = "up">Fist pointing upwards</option>
-                   		 				<option value = "right">Twist Rightwards</option>
-                 						 <option value = "left">Twist Leftwards</option>
-                 						 </select>
-                 						 </div>
-                 						 </td> 
+                                        <td class="dropdown">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Fist pointing downwards
+                                        </td>   
                                     </tr>
                                     <tr>
                                         <td>RED</td>
-                                      <td>
-                                        <div class="form-group">
-                   		 				<select class="form-control" id="offg" name="redg">
-                   		 				<option value = "right">Twist Rightwards</option>
-                   		 				<option value = "up">Fist pointing upwards</option>
-                   		 				<option value = "down">Fist pointing downwards</option>
-                 						 <option value = "left">Twist Leftwards</option>
-                 						 </select>
-                 						 </div>
-                 						 </td>
+                                        <td class = "dropdown">
+                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Twist Rightwards </b></a>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>BLUE</td>
-                                      <td>
-                                         <div class="form-group">
-                   		 				<select class="form-control" id="offg" name="blueg">
-                   		 				<option value = "left">Twist Leftwards</option>
-                   		 				<option value = "up">Fist pointing upwards</option>
-                   		 				<option value = "down">Fist pointing downwards</option>
-                   		 				<option value = "right">Twist Rightwards</option>
-                 						 </select>
-                 						 </div>
-                 						 </td>
+                                        <td class="dropdown">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Twist Leftwards</a>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
-                              <button id="gesture" type="submit">
-                                Submit
-                            </button>
                         </div>
                     </div>
                 </div>
                 <!-- /.row -->
             </div>
             <!-- /.container-fluid -->
-            </form>
         </div>
         <!-- /#page-wrapper -->
     </div>
     <!-- /#wrapper -->
     <!-- jQuery -->
-    <script src="js/jquery.js"></script>
+    <script src="../public/js/jquery.js"></script>
     <!--  <script src='1k.js'></script> -->
     <!-- Bootstrap Core JavaScript -->
-    <script src="js/gestures.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <script src="../public/js/gestures.js"></script>
+    <script src="../public/js/bootstrap.min.js"></script>
 </body>
 
 </html>

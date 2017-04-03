@@ -5,7 +5,7 @@ var types = require('pg').types;
 // Initialize Particle Photon
 var particle = new Particle(); 
 // Gesture
-var gesture;
+var on_off;
 // Session
 var session;
 // Lights
@@ -34,8 +34,7 @@ var LUMINAIRE_IDS = ['430035001647353236343033','390040001347353236343033','3f00
 '190032001547343339383037', '2e0025000b47353235303037', '300030001147353236343033', '32003a000b47353235303037',
 '2f0018000a47353235303037', '320026001147353236343033'];
 // Selected ID's
-var SELECTED_LUMINAIRES = [];
-var occupancy = 0;
+var SELECTED_LUMINAIRES = ['390040001347353236343033'];
 
 var client = new pg.Client({
 	user: "jryhvlrzsvchoc",
@@ -166,49 +165,42 @@ function gestureSwitch(name){
 
 function onIMUCharacteristicsRead(data, isNotification) {
   console.log('imuCharacteristic read response value: ', data.readInt8(0));
-  if (gesture == 117){
+    //on_off = data.readInt8(0);
+    on_off = 98;
+  if (on_off == 117){
     var query = client.query('SELECT gesture FROM gestures WHERE command=\'up\'', [], function(err,result){
       if (err) throw err;
-      gesture = gestureSwitch(result.rows[0].gesture);
-      console.log(result);
-      console.log("parsing:");
-      console.log(gesture);
+      on_off = gestureSwitch(result.rows[0].gesture);
     });
   }
-  else if (gesture == 100){
+  else if (on_off == 100){
     var query = client.query('SELECT gesture FROM gestures WHERE command=\'down\'', [], function(err,result){
       if (err) throw err;
-      gesture = gestureSwitch(result.rows[0].gesture);
-      console.log(result);
-      console.log("parsing:");
-      console.log(gesture);
+      on_off = gestureSwitch(result.rows[0].gesture);
     });
   }
-  else if (gesture == 98){
+  else if (on_off == 98){
     var query = client.query('SELECT gesture FROM gestures WHERE command=\'left\'', [], function(err,result){
       if (err) throw err;
-      gesture = gestureSwitch(result.rows[0].gesture);
+      on_off = gestureSwitch(result.rows[0].gesture);
       console.log(result);
       console.log("parsing:");
-      console.log(gesture);
+      console.log(on_off);
     });
   }
-  else if (gesture == 114){
+  else if (on_off == 114){
     var query = client.query('SELECT gesture FROM gestures WHERE command=\'right\'', [], function(err,result){
       if (err) throw err;
-      gesture = gestureSwitch(result.rows[0].gesture);
-      console.log(result);
-      console.log("parsing:");
-      console.log(gesture);
+      on_off = gestureSwitch(result.rows[0].gesture);
     });
   }
-  gesture_update();
+  functionPost();
 }
 
 // Function reads incoming light_ID data
 function onLightCharacteristicRead(data, isNotification) {
   if (isNotification) {
-   console.log('idCharacteristic notification value: ', data.readInt8(0));
+   // console.log('idCharacteristic notification value: ', data.readInt8(0));
     light_id = data.readInt8(0);
     light_update();
   } else {
@@ -232,7 +224,7 @@ function onSessionCharacteristicRead(data, isNotification) {
 // Function reads incoming selection_data
 function onSelectionCharacteristicRead(data, isNotification) {
   if (isNotification) {
-    console.log('onSelectionCharacteristic notification value: ', data.readInt8(0));
+    //console.log('onSelectionCharacteristic notification value: ', data.readInt8(0));
     selection = data.readInt8(0);
     luminaire_selection();
   } else {
@@ -244,7 +236,7 @@ function onSelectionCharacteristicRead(data, isNotification) {
 // Function reads incoming end_selection data
 function onEndSelectionCharacteristicRead(data, isNotification) {
     if (isNotification) {
-	console.log('onSelectionCharacteristic notification value: ', data.readInt8(0));
+	//console.log('onSelectionCharacteristic notification value: ', data.readInt8(0));
 	end_selection = data.readInt8(0);
 	end_luminaire_selection();
     } else {
@@ -384,13 +376,10 @@ function end_luminaire_selection() {
     }
 }
 
-function gesture_update() {
-    // Loop through all device ID's
-    for (var i = 0; i < SELECTED_LUMINAIRES.length; i++) {
-	var device_id = SELECTED_LUMINAIRES[i];
-    if(gesture == 117){ //on
+function functionPost() {
+  if(on_off == 117){
     var fnPr = particle.callFunction({ 
-      deviceId: device_id,
+      deviceId: '390040001347353236343033',
       name: 'toggleLights', 
       argument: 'u', 
       auth: token
@@ -398,9 +387,9 @@ function gesture_update() {
     numOn = numOn + 1;
     databasePost();
   }
-  else if(gesture == 100){ // off
+  else if(on_off == 100){
     var fnPr = particle.callFunction({ 
-      deviceId: device_id,
+      deviceId: '390040001347353236343033',
       name: 'toggleLights', 
       argument: 'd', 
       auth: token
@@ -408,31 +397,22 @@ function gesture_update() {
     numOn = numOn - 1;
     databasePost();
   } 
-  else if(gesture == 98){ // blue
+  else if(on_off == 98){ // 'r'
     var fnPr = particle.callFunction({ 
-      deviceId: device_id,
+      deviceId: '390040001347353236343033',
       name: 'toggleLights', 
       argument: 'b', 
       auth: token
     });
   }
-  else if(gesture == 114){ // red
+  else if(on_off == 114){ //'b'
     var fnPr = particle.callFunction({ 
-      deviceId: device_id,
+      deviceId: '390040001347353236343033',
       name: 'toggleLights', 
       argument: 'r', 
       auth: token
     });
-  }
-	else
-	{
-	    var fnPr = particle.callFunction({
-		deviceId: device_id,
-		name: 'toggleLights',
-		agument: '0',
-		auth: token
-	    });
-	}
+  }			
   fnPr.then(
   function(data) {
     //console.log('Function called succesfully:', data);
@@ -440,9 +420,6 @@ function gesture_update() {
   }, function(err) {
     console.log('An error occurred:', err);
   });
-	console.log(fnPr.value);
-    }
-    active_imu = 0;
 }
 
 // Check to see if it has been 24 hours since the last update

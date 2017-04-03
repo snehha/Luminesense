@@ -9,14 +9,17 @@
     <meta name="author" content="">
     <title>Luminesense - Gestures</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
+     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.css" rel="stylesheet">
     <link href="css/lumin.css" rel="stylesheet">
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <script src="js/jquery.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <script src="/js/socket.io.js"></script>
     <script src="js/gesture.js"></script>
 </head>
+
 
 <body>
     <div id="wrapper">
@@ -120,12 +123,7 @@
                 <!-- /.row -->
                 <div class="row">
                     <div class="col-lg-4 button-options">
-                        <div class="test">
-                            <button id="hello" type="button">
-                                Click Me!
-                            </button>
-                        </div>
-                        <div class="onoffswitch">
+                        <div class="onoffswitch" id="on-off">
                             <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
                             <label class="onoffswitch-label" for="myonoffswitch">
                                 <span class="onoffswitch-inner"></span>
@@ -134,22 +132,37 @@
                         </div>
                     </div>
                     <div class="col-lg-6 button-options" id="color-picker">
+
                         <img id="Image-Maps-Com-image-maps-2017-02-22-231909" src="color_wheel.jpg" border="0" width="300" height="300" orgWidth="300" orgHeight="300" usemap="#mymap" alt="" />
                         <map name="mymap" id="ImageMapsCom-image-maps-2017-02-22-231909">
-                            <area alt="" title="3" shape="rect" coords="246,122,299,177" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (124,124,0)";' />
-                            <area alt="" title="4" shape="rect" coords="232,185,283,240" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (50,0,50)";' />
-                            <area alt="" title="5" shape="rect" coords="184,231,233,283" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (90,90,45)";' />
-                            <area alt="" title="2" shape="rect" coords="235,61,283,116" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (0,0,255)";' />
-                            <area alt="" title="1" shape="rect" coords="184,15,235,70" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (90,125,0)";' />
-                            <area alt="" title="12" shape="rect" coords="122,0,178,55" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (120,0,255)";' />
-                            <area alt="" title="11" shape="rect" coords="67,13,117,71" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (50,0,90)";' />
-                            <area alt="" title="10" shape="rect" coords="16,61,67,116" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (0,80,70)";' />
-                            <area alt="" title="9" shape="rect" coords="1,122,56,177" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (25,0,255)";' />
-                            <area alt="" title="8" shape="rect" coords="7,185,62,240" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (0,0,0)";' />
-                            <area alt="" title="7" shape="rect" coords="63,228,117,284" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (0,140,140)";' />
-                            <area alt="" title="6" shape="rect" coords="123,241,179,299" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (0,90,0)";' />
+							<area alt="" id = "1" title="1" shape="rect" coords="184,15,235,70" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (90,125,0)";' />
+                            <area alt="" id = "2" title="2" shape="rect" coords="235,61,283,116" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (0,0,255)";' />
+                            <area alt="" id = "3" title="3" shape="rect" coords="246,122,299,177" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (124,124,0)";' />
+                            <area alt="" id = "4" title="4" shape="rect" coords="232,185,283,240" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (50,0,50)";' />
+                            <area alt="" id = "5" title="5" shape="rect" coords="184,231,233,283" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (90,90,45)";' />
+                            <area alt="" id = "6" title="6" shape="rect" coords="123,241,179,299" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (0,90,0)";' />
+                            <area alt="" id = "7" title="7" shape="rect" coords="63,228,117,284" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (0,140,140)";' />
+							<area alt="" id = "8" title="8" shape="rect" coords="7,185,62,240" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (0,0,0)";' />
+                            <area alt="" id = "9" title="9" shape="rect" coords="1,122,56,177" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (25,0,255)";' />
+                            <area alt="" id = "10" title="10" shape="rect" coords="16,61,67,116" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (0,80,70)";' />
+                            <area alt="" id = "11" title="11" shape="rect" coords="67,13,117,71" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (50,0,90)";' />
+                            <area alt="" id = "12" title="12" shape="rect" coords="122,0,178,55" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (120,0,255)";' />
+                            
+                            
                             <area shape="rect" coords="298,298,300,300" alt="Image Map" style="outline:none;" title="Image Map" />
                         </map>
+                       
+						<!-- <script>
+							var socket = io();
+							var rgbJoin;
+							socket.on('toggleLED', function(colorCircleTitle){
+								console.log("Received the circle title value for choosing the color");
+								for(title in colorCircleTitle){
+									rgbJoin = colorCircleTitle[title].join();
+								}
+							});
+						</script>
+						<-->
                         <br>
                         <br>
                         <input readonly id="rgbvalue" style=" resize: none; background: none; border: none;" value=""/>
@@ -166,8 +179,8 @@
                             <table class="table table-bordered table-hover table-striped">
                                 <thead>
                                     <tr>
-                                        <th>Action</th>
-                                        <th>Gesture Action
+                                        <th>GestureAction</th>
+                                        <th>Result
                                         </th>
                                     </tr>
                                 </thead>
@@ -175,25 +188,45 @@
                                     <tr>
                                         <td>ON</td>
                                         <td class="dropdown">
-                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Fist pointing upwards</a>
+											<select id = "sel" class="dropdown-toggle" data_toggle="dropdown">
+												<option value = "u">Fist pointing upwards</option>
+												<option value = "d">Fist pointing downwards</option>
+												<option value = "r">Twist Rightwards</option>
+												<option value = "l">Twist Leftwards</option></option>
+											</select>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>OFF</td>
                                         <td class="dropdown">
-                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Fist pointing downwards
+                                            <select id = "sel" class="dropdown-toggle" data_toggle="dropdown">
+												<option value = "u">Fist pointing upwards</option>
+												<option value = "d">Fist pointing downwards</option>
+												<option value = "r">Twist Rightwards</option>
+												<option value = "l">Twist Leftwards</option></option>
+											</select>
                                         </td>   
                                     </tr>
                                     <tr>
                                         <td>RED</td>
                                         <td class = "dropdown">
-                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Twist Rightwards </b></a>
+                                                <select id = "sel" class="dropdown-toggle" data_toggle="dropdown">
+												<option value = "u">Fist pointing upwards</option>
+												<option value = "d">Fist pointing downwards</option>
+												<option value = "r">Twist Rightwards</option>
+												<option value = "l">Twist Leftwards</option></option>
+											</select>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>BLUE</td>
                                         <td class="dropdown">
-                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Twist Leftwards</a>
+                                           <select id = "sel" class="dropdown-toggle" data_toggle="dropdown">
+												<option value = "u">Fist pointing upwards</option>
+												<option value = "d">Fist pointing downwards</option>
+												<option value = "r">Twist Rightwards</option>
+												<option value = "l">Twist Leftwards</option></option>
+											</select>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -202,6 +235,15 @@
                     </div>
                 </div>
                 <!-- /.row -->
+                <button id="submit" type="button" onclick = submitgestures();>
+					Submit!
+                </button>
+                <script type="text/javascript">
+					function submitgestures(){
+						toastr.info('Gestures Submitted!');	
+						console.log('Hello');				
+					}
+                </script>
             </div>
             <!-- /.container-fluid -->
         </div>
@@ -209,11 +251,11 @@
     </div>
     <!-- /#wrapper -->
     <!-- jQuery -->
-    <script src="js/jquery.js"></script>
+    <script src="../public/js/jquery.js"></script>
     <!--  <script src='1k.js'></script> -->
     <!-- Bootstrap Core JavaScript -->
-    <script src="js/gestures.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <script src="../public/js/gestures.js"></script>
+    <script src="../public/js/bootstrap.min.js"></script>
 </body>
 
 </html>
