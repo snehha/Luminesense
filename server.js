@@ -74,7 +74,12 @@ app.post('/gestures.html', function(req, res){
 
 app.post('/lightchange', function(req, res){
 	console.log("we're in");
-	console.log(req.body);
+	if (req.body.lights == "on"){
+
+	}
+	else{
+
+	}
 });
 
 app.listen(port, function() {

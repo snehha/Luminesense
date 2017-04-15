@@ -108,7 +108,7 @@
                         </script> -->
                         <img id="Image-Maps-Com-image-maps-2017-02-22-231909" src="img/color_wheel.jpg" border="0" width="300" height="300" orgWidth="300" orgHeight="300" usemap="#mymap" alt="" />
                         <map name="mymap" id="ImageMapsCom-image-maps-2017-02-22-231909">
-                            <area alt="" title="3" shape="rect" coords="246,122,299,177" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (124,124,0)";' />
+                            <area alt="" title="3" shape="rect" coords="246,122,299,177" style="outline:none;" onclick= "sendRGB('124,124,0');" />
                             <area alt="" title="4" shape="rect" coords="232,185,283,240" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (50,0,50)";' />
                             <area alt="" title="5" shape="rect" coords="184,231,233,283" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (90,90,45)";' />
                             <area alt="" title="2" shape="rect" coords="235,61,283,116" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (0,0,255)";' />
@@ -224,13 +224,15 @@
         var $name = 'lights';
         var data = {};
         data[$name] = $("#myonoffswitch").is(':checked');
-        console.log("call success");
-        console.log($("#myonoffswitch").is(':checked'));
         $.ajax({
             type: 'POST',
             url: '/lightchange',
             data : data
         });
+    }
+
+    function sendRGB(value){
+        console.log(value);
     }
     </script>
 
