@@ -15,6 +15,16 @@ var client = new pg.Client({
 });
 client.connect();
 
+var particle = new Particle(); 
+var token = '72409242cf2554bebb494f5e0a94775456005de7';	
+particle.login({username: 'mcl.testbed@gmail.com', password: 'littlesarmy'}).then(
+function(data){
+console.log('API call completed on promise resolve: ', data.body.access_token);
+},
+function(err) {
+console.log('API call completed on promise fail: ', err);
+});	
+
 // set the port of our application
 // process.env.PORT lets the port be set by Heroku
 var port = process.env.PORT || 8080;
@@ -73,7 +83,6 @@ app.post('/gestures.html', function(req, res){
 });
 
 app.post('/lightchange', function(req, res){
-	console.log("we're in");
 	if (req.body.lights == "on"){
 
 	}
