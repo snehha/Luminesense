@@ -75,6 +75,7 @@ app.post('/gestures.html', function(req, res){
 app.post('/lightchange', function(req, res){
 	console.log("we're in");
 	console.log(req.body.onoffswitch);
+	console.log(document.getElementById(myonoffswitch).checked);
 });
 
 app.listen(port, function() {

@@ -223,7 +223,6 @@
     function sendValuesOn(){
         console.log("call success");
         console.log($("#myonoffswitch").val());
-        console.log(document.getElementById(myonoffswitch).checked);
         $.ajax({
             type: 'POST',
             url: '/lightchange'
