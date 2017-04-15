@@ -232,11 +232,13 @@
     }
 
     function sendRGB(value){
-        console.log(value);
+        var $name = 'color';
+        var data = {};
+        data[$name] = value;
         $.ajax({
             type: 'POST',
             url: '/colorchange',
-            data : value
+            data : data
         });
 
     }
