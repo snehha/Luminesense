@@ -3,6 +3,7 @@ var pg = require('pg');
 var app = express();
 var fs = require("fs");
 var bodyParser = require('body-parser');
+var Particle = require('particle-api-js');
 var WATTAGE = 12;
 
 var client = new pg.Client({
