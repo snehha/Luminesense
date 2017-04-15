@@ -62,7 +62,6 @@ app.get('/gestures.html', function(req, res){
 
 app.post('/gestures.html', function(req, res){
 	res.render('gestures');
-	console.log(req.body.checkbox);
 	client.query('DELETE FROM gestures');
 	client.query('INSERT INTO gestures (gesture, command) VALUES ($1, $2);', ["on", req.body.on]);
 	client.query('INSERT INTO gestures (gesture, command) VALUES ($1, $2);', ["off", req.body.off]);
@@ -72,6 +71,10 @@ app.post('/gestures.html', function(req, res){
 		if (err) throw err;
 	});
 })
+
+app.post('/lightchange', function(req, res){
+	console.log(req.body.onoffswitch);
+});
 
 app.listen(port, function() {
     console.log('Our app is running on http://localhost:' + port);

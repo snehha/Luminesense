@@ -222,6 +222,10 @@
     <script type="text/javascript">
     function sendValuesOn(){
         console.log("call success");
+        $.ajax({
+            type: 'POST',
+            url: '/lightchange'
+        });
     }
     </script>
 
