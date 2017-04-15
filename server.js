@@ -27,6 +27,7 @@ particle.login({username: 'mcl.testbed@gmail.com', password: 'littlesarmy'}).the
 });	
 
 function functionPost(actionArg){
+	console.log(token);
 	var fnPr = particle.callFunction({
 		deviceId: '390040001347353236343033',
 		name: 'toggleLights',
