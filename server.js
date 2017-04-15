@@ -61,8 +61,6 @@ app.get('/gestures.html', function(req, res){
 });
 
 app.post('/gestures.html', function(req, res){
-	console.log("post request");
-	console.log(req.body.on);
 	res.render('gestures');
 	client.query('DELETE FROM gestures');
 	client.query('INSERT INTO gestures (gesture, command) VALUES ($1, $2);', ["on", req.body.on]);
@@ -71,17 +69,8 @@ app.post('/gestures.html', function(req, res){
 	client.query('INSERT INTO gestures (gesture, command) VALUES ($1, $2);', ["blue", req.body.blue]);
 	var query = client.query('SELECT gesture,command FROM gestures', [], function(err,result){
 		if (err) throw err;
-		console.log(result.rows[0]);
-		console.log(result.rows[1]);
-		console.log(result.rows[2]);
-		console.log(result.rows[3]);
 	});
 })
-
-//set blank page route
-app.get('/blank-page.html', function(req, res){
-		res.render('blank-page')
-});
 
 app.listen(port, function() {
     console.log('Our app is running on http://localhost:' + port);

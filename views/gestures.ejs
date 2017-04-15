@@ -88,21 +88,24 @@
                 <form action="/gestures.html" method="POST" id="gestureform">
                 <div class="row">
                     <div class="col-lg-4 button-options">
-                        <div class="test">
-                            <button id="hello" type="button">
-                                Click Me!
-                            </button>
-                        </div>
-                        <div class="onoffswitch">
+                        <div class="onoffswitch" id="on-off">
                             <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
                             <label class="onoffswitch-label" for="myonoffswitch">
-                                <span class="onoffswitch-inner"></span>
+                                <span class="onoffswitch-inner" onclick = "sendValuesOn();" ></span>
                                 <span class="onoffswitch-switch"></span>
                             </label>
                         </div>
-                        <!-- <button type="button" class= "button-padding"> RED </button>
-                        <button type="button" class= "button-padding"> BLUE </button> -->
                     </div>
+                    <div class="col-lg-4">
+                        <div class="onoffswitch" id="on-off">
+                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
+                            <label class="onoffswitch-label" for="myonoffswitch">
+                                <span class="onoffswitch-inner" onclick = "sendValuesOff();" ></span>
+                                <span class="onoffswitch-switch"></span>
+                            </label>
+                        </div>
+                    </div>
+                 </div>
                     <div class="col-lg-6 button-options" id="color-picker">
                         <!--  <canvas id="c"></canvas>
                         <script>
@@ -224,6 +227,13 @@
     <!-- Bootstrap Core JavaScript -->
     <script src="js/gestures.js"></script>
     <script src="js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+    function sendValuesOn(){
+        console.log("call success");
+    }
+    </script>
+    
 </body>
 
 </html>
