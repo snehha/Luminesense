@@ -19,12 +19,27 @@ client.connect();
 var particle = new Particle(); 
 var token = '72409242cf2554bebb494f5e0a94775456005de7';	
 particle.login({username: 'mcl.testbed@gmail.com', password: 'littlesarmy'}).then(
-function(data){
-console.log('API call completed on promise resolve: ', data.body.access_token);
-},
-function(err) {
-console.log('API call completed on promise fail: ', err);
+	function(data){
+		console.log('API call completed on promise resolve: ', data.body.access_token);
+	},
+	function(err) {
+	console.log('API call completed on promise fail: ', err);
 });	
+
+function functionPost(actionArg){
+	var fnPr = particle.callFunction({
+		deviceId: '390040001347353236343033',
+		name: 'toggleLights',
+		argument: actionArg, 
+		auth: token
+	});							
+	fnPr.then(
+		function(data){
+			console.log('Function called successfully:', data);
+		}, function(err){
+			console.log('An error occured:', err);
+	});
+}
 
 // set the port of our application
 // process.env.PORT lets the port be set by Heroku
@@ -85,15 +100,18 @@ app.post('/gestures.html', function(req, res){
 
 app.post('/lightchange', function(req, res){
 	if (req.body.lights == "on"){
-
+		functionPost('u');
 	}
 	else{
-
+		functionPost('d');
 	}
 });
 
 app.post('/colorchange', function(req,res){
 	console.log(req.body.color);
+	if (req.body.color == '90,125,0'){
+		functionPost('b');
+	}
 });
 
 app.listen(port, function() {
