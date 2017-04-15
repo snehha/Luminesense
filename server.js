@@ -27,7 +27,6 @@ particle.login({username: 'mcl.testbed@gmail.com', password: 'littlesarmy'}).the
 });	
 
 function functionPost(actionArg){
-	console.log(token);
 	var fnPr = particle.callFunction({
 		deviceId: '390040001347353236343033',
 		name: 'toggleLights',
@@ -109,7 +108,6 @@ app.post('/lightchange', function(req, res){
 });
 
 app.post('/colorchange', function(req,res){
-	console.log(req.body.color);
 	if (req.body.color == '90,125,0'){
 		functionPost('b');
 	}
