@@ -83,7 +83,7 @@ app.post('/lightchange', function(req, res){
 });
 
 app.post('/colorchange', function(req,res){
-	console.low(req.body);
+	console.log(req.body);
 });
 
 app.listen(port, function() {
