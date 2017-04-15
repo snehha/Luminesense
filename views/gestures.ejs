@@ -221,11 +221,15 @@
 
     <script type="text/javascript">
     function sendValuesOn(){
+        var $name = 'lights';
+        var data = {};
+        data[$name] = $("#myonoffswitch").is(':checked');
         console.log("call success");
         console.log($("#myonoffswitch").is(':checked'));
         $.ajax({
             type: 'POST',
-            url: '/lightchange'
+            url: '/lightchange',
+            data : data
         });
     }
     </script>
