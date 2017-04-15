@@ -109,17 +109,17 @@
                         <img id="Image-Maps-Com-image-maps-2017-02-22-231909" src="img/color_wheel.jpg" border="0" width="300" height="300" orgWidth="300" orgHeight="300" usemap="#mymap" alt="" />
                         <map name="mymap" id="ImageMapsCom-image-maps-2017-02-22-231909">
                             <area alt="" title="3" shape="rect" coords="246,122,299,177" style="outline:none;" onclick= "sendRGB('124,124,0');" />
-                            <area alt="" title="4" shape="rect" coords="232,185,283,240" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (50,0,50)";' />
-                            <area alt="" title="5" shape="rect" coords="184,231,233,283" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (90,90,45)";' />
-                            <area alt="" title="2" shape="rect" coords="235,61,283,116" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (0,0,255)";' />
-                            <area alt="" title="1" shape="rect" coords="184,15,235,70" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (90,125,0)";' />
-                            <area alt="" title="12" shape="rect" coords="122,0,178,55" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (120,0,255)";' />
-                            <area alt="" title="11" shape="rect" coords="67,13,117,71" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (50,0,90)";' />
-                            <area alt="" title="10" shape="rect" coords="16,61,67,116" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (0,80,70)";' />
-                            <area alt="" title="9" shape="rect" coords="1,122,56,177" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (25,0,255)";' />
-                            <area alt="" title="8" shape="rect" coords="7,185,62,240" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (0,0,0)";' />
-                            <area alt="" title="7" shape="rect" coords="63,228,117,284" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (0,140,140)";' />
-                            <area alt="" title="6" shape="rect" coords="123,241,179,299" style="outline:none;" onclick='document.getElementById("rgbvalue").value = "RGB: (0,90,0)";' />
+                            <area alt="" title="4" shape="rect" coords="232,185,283,240" style="outline:none;" onclick= "sendRGB('50,0,50');" /> 
+                            <area alt="" title="5" shape="rect" coords="184,231,233,283" style="outline:none;" onclick= "sendRGB('90,90,45');" />
+                            <area alt="" title="2" shape="rect" coords="235,61,283,116" style="outline:none;" onclick = "sendRGB('0,0,255');" />
+                            <area alt="" title="1" shape="rect" coords="184,15,235,70" style="outline:none;" onclick = "sendRGB('90,125,0');" />
+                            <area alt="" title="12" shape="rect" coords="122,0,178,55" style="outline:none;" onclick = "sendRGB('120,0,255');" />
+                            <area alt="" title="11" shape="rect" coords="67,13,117,71" style="outline:none;" onclick = "sendRGB('50,0,90');" />
+                            <area alt="" title="10" shape="rect" coords="16,61,67,116" style="outline:none;" onclick = "sendRGB('0,80,70');" />
+                            <area alt="" title="9" shape="rect" coords="1,122,56,177" style="outline:none;" onclick = "sendRGB('25,0,255');" />
+                            <area alt="" title="8" shape="rect" coords="7,185,62,240" style="outline:none;" onclick = "sendRGB('0,0,0');" />
+                            <area alt="" title="7" shape="rect" coords="63,228,117,284" style="outline:none;" onclick = "sendRGB('0,140,140');" />
+                            <area alt="" title="6" shape="rect" coords="123,241,179,299" style="outline:none;" onclick= "sendRGB('0,90,0');" />
                             <area shape="rect" coords="298,298,300,300" alt="Image Map" style="outline:none;" title="Image Map" />
                         </map>
                         <br>
@@ -233,6 +233,12 @@
 
     function sendRGB(value){
         console.log(value);
+        $.ajax({
+            type: 'POST',
+            url: '/colorchange',
+            data : value
+        });
+
     }
     </script>
 

@@ -82,6 +82,10 @@ app.post('/lightchange', function(req, res){
 	}
 });
 
+app.post('/colorchange', function(req,res){
+	console.low(req.body);
+});
+
 app.listen(port, function() {
     console.log('Our app is running on http://localhost:' + port);
 });
