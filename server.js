@@ -70,9 +70,10 @@ app.post('/gestures.html', function(req, res){
 	var query = client.query('SELECT gesture,command FROM gestures', [], function(err,result){
 		if (err) throw err;
 	});
-})
+});
 
 app.post('/lightchange', function(req, res){
+	console.log("we're in");
 	console.log(req.body.onoffswitch);
 });
 
