@@ -222,7 +222,7 @@
     <script type="text/javascript">
     function sendValuesOn(){
         console.log("call success");
-        console.log(onoffswitch);
+        console.log($("#myonoffswitch").val());
         $.ajax({
             type: 'POST',
             url: '/lightchange'
