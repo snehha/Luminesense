@@ -104,7 +104,7 @@ app.post('/gestures.html', function(req, res){
 
 app.post('/lightchange', function(req, res){
 	console.log(req.body.lights);
-	if (req.body.lights == "on"){
+	if (req.body.lights == true){
 		functionPost('u');
 	}
 	else{
