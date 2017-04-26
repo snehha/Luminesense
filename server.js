@@ -37,9 +37,9 @@ function functionPost(actionArg){
 	});							
 	fnPr.then(
 		function(data){
-			console.log('Function called successfully:', data);
+			//console.log('Function called successfully:', data);
 		}, function(err){
-			console.log('An error occured:', err);
+			//console.log('An error occured:', err);
 	});
 	}
 
