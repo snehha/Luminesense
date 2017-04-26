@@ -27,8 +27,10 @@ particle.login({username: 'mcl.testbed@gmail.com', password: 'littlesarmy'}).the
 });	
 
 function functionPost(actionArg){
-	var fnPr = particle.callFunction({
-		deviceId: '390040001347353236343033',
+	var LUMINAIRE_IDS = ['30003e001147353236343033', '3f0030000f47343432313031', '34003c001547353236343033', '180036001847353236343033'];
+	for (i = 0; i < LUMINAIRE_IDS.length; i++){
+		var fnPr = particle.callFunction({
+		deviceId: LUMINAIRE_IDS[i],
 		name: 'toggleLights',
 		argument: actionArg, 
 		auth: token
@@ -39,6 +41,8 @@ function functionPost(actionArg){
 		}, function(err){
 			console.log('An error occured:', err);
 	});
+	}
+
 }
 
 // set the port of our application
