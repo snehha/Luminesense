@@ -103,9 +103,8 @@ app.post('/gestures.html', function(req, res){
 });
 
 app.post('/lightchange', function(req, res){
-	console.log(req.body.lights);
+	console.log("lgiht change");
 	if (req.body.lights == 'true'){
-		console.log("yo")
 		functionPost('u');
 	}
 	else{
@@ -114,6 +113,7 @@ app.post('/lightchange', function(req, res){
 });
 
 app.post('/colorchange', function(req,res){
+	console.log("color change");
 	if (req.body.color == '90,125,0'){
 		functionPost('b');
 	}
